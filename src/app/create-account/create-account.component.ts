@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AccountService } from '../_services/account.service';
+
 @Component({
   selector: 'app-create-account',
   templateUrl: './create-account.component.html',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateAccountComponent implements OnInit {
 
-  constructor() { }
+  nameVal: string = '';
+  emailVal: string = '';
+  passwordVal: string = '';
+
+  constructor(public accountService: AccountService) { }
 
   ngOnInit(): void {
   }
 
+  createAccount() {
+
+  }
 }
