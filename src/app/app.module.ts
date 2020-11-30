@@ -7,6 +7,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { MessageComponent } from './message/message.component';
 import { LoginComponent } from './login/login.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { CreateAccountComponent } from './create-account/create-account.componen
     NavbarComponent,
     MessageComponent,
     LoginComponent,
-    CreateAccountComponent
+    CreateAccountComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
