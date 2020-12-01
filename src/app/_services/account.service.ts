@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import firebase from "firebase/app";
-import { Observable, of } from 'rxjs';
 
 import { MessageService } from './message.service';
 
@@ -26,7 +25,7 @@ export class AccountService {
   }
 
   isLoggedIn(): boolean {
-    var user = firebase.auth().currentUser;
+    const user = firebase.auth().currentUser;
 
     return user ? true : false;
   }

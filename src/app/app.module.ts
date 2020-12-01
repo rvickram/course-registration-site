@@ -16,7 +16,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { MessageComponent } from './message/message.component';
 import { LoginComponent } from './login/login.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
-import { AboutComponent } from './about/about.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 import { MyAccountComponent } from './my-account/my-account.component';
 
 @NgModule({
@@ -26,7 +26,7 @@ import { MyAccountComponent } from './my-account/my-account.component';
     MessageComponent,
     LoginComponent,
     CreateAccountComponent,
-    AboutComponent,
+    DashboardComponent,
     MyAccountComponent,
   ],
   imports: [
