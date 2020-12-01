@@ -8,19 +8,50 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="loginEmail">Email address</label>
-                        <input type="email" class="form-control" id="loginEmail" aria-describedby="emailHelp" placeholder="Enter email">
-                    </div>
-    
-                    <div class="form-group">
-                        <label for="loginPassword">Password</label>
-                        <input type="password" class="form-control" id="loginPassword" placeholder="Password">
-                    </div>
-    
-                    <button type="submit" class="btn btn-primary">Login</button>
-                </form>
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                      <div class="form-group"
+                           [ngClass]="{
+                            'has-danger': email.invalid && (email.dirty || email.touched),
+                            'has-success': email.valid && (email.dirty || email.touched)
+                       }">
+                        <label>Email</label>
+                        <input type="email"
+                               class="form-control"
+                               [class.is-invalid]="loginForm.get('email').invalid && loginForm.get('email').touched"
+                               formControlName="email"
+                               maxlength="30"
+                               placeholder="e.g. example@uwo.ca"
+                               required>
+                        <div class="form-control-feedback"
+                             *ngIf="email.errors && (email.dirty || email.touched)">
+                          <p *ngIf="email.errors.required">Email is required</p>
+                          <p *ngIf="email.errors.pattern">The email address is invalid!</p>
+                        </div>
+                    
+                      </div>
+                    
+                      <div class="form-group"
+                           [ngClass]="{
+                            'has-danger': password.invalid && (password.dirty || password.touched),
+                            'has-success': password.valid && (password.dirty || password.touched)
+                       }">
+                        <label>Password</label>
+                        <input type="password"
+                               class="form-control"
+                               [class.is-invalid]="loginForm.get('password').invalid && loginForm.get('password').touched"
+                               formControlName="password"
+                               maxlength="30"
+                               placeholder="Password"
+                               required>
+                        <div class="form-control-feedback"
+                             *ngIf="password.errors && (password.dirty || password.touched)">
+                          <p *ngIf="password.errors.required">Password is required</p>
+                          <p *ngIf="password.errors.minlength">Password must be 8 characters long, we need another {{password.errors.minlength.requiredLength - password.errors.minlength.actualLength}} characters </p>
+                        </div>
+                      </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
             </div>
     
             <div class="modal-footer">

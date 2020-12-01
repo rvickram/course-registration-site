@@ -21,7 +21,6 @@ export class CreateAccountComponent implements OnInit {
   lastName: FormControl;
   email: FormControl;
   password: FormControl;
-  language: FormControl;
 
   createAccountForm;
 
@@ -46,7 +45,6 @@ export class CreateAccountComponent implements OnInit {
       Validators.required,
       Validators.minLength(8)
     ]);
-    this.language = new FormControl('');
   }
 
   createForm() {
@@ -56,8 +54,7 @@ export class CreateAccountComponent implements OnInit {
         lastName: this.lastName,
       }),
       email: this.email,
-      password: this.password,
-      language: this.language
+      password: this.password
     });
   }
 

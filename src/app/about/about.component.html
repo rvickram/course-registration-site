@@ -1,4 +1,4 @@
-<div *ngIf="!accountService.loggedIn" class="jumbotron">
+<div *ngIf="!accountService.isLoggedIn()" class="jumbotron">
     <h1 class="display-4">Welcome!</h1>
     <p class="lead">
         This website will let you browse courses, and build your own schedule.
@@ -22,4 +22,16 @@
         data-target="#createAccountModal">
       Create Account
   </button>
+</div>
+
+<div *ngIf="accountService.isLoggedIn()" class="jumbotron">
+    <h1 class="display-4">Welcome {{accountService.getName()}}!</h1>
+    <p class="lead">
+        This website will let you browse courses, and build your own schedule.
+    </p>
+
+    <hr class="my-4">
+    <p>
+        Browse some publicly available schedules below, or build your own!
+    </p>
 </div>

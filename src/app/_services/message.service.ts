@@ -9,12 +9,12 @@ export class MessageService {
 
   constructor() { }
 
-  public alertRed(title: string = "Error", message: string):void {
+  public alertRed(message: string, title: string = "Success"):void {
     const newMsg: Message = new Message(title, message, 'alert-danger');
     this.messages.push(newMsg);
   }
 
-  public alertGreen(title: string = "Success", message: string):void {
+  public alertGreen(message: string, title: string = "Success"):void {
     const newMsg: Message = new Message(title, message, 'alert-success');
     this.messages.push(newMsg);
   }
