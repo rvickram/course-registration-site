@@ -37,6 +37,10 @@ export class AccountService {
     return firebase.auth().currentUser.displayName.split(' ')[0];
   }
 
+  getEmail(): string {
+    return firebase.auth().currentUser.email;
+  }
+
   async newAccount(email: string, password: string, name: string) {
     try {
       // try to create the account
