@@ -41,23 +41,23 @@ export class AccountService {
     return firebase.auth().currentUser.email;
   }
 
-  async newAccount(email: string, password: string, name: string) {
+  async newAccount(email: string, password: string, name: string): Promise<void> {
     try {
       // try to create the account
       var response = await firebase.auth().createUserWithEmailAndPassword(email, password);
       console.log(response);
 
       // if successful, add a name:
-      firebase.auth().currentUser.updateProfile({
+      await firebase.auth().currentUser.updateProfile({
         displayName: name
-      })
+      });
     } catch (e) {
       console.log(e);
       this.messageService.alertRed(e);
     }
   }
 
-  async login(email: string, password: string) { //TODO
+  async login(email: string, password: string): Promise<void> { //TODO
     try {
       var response = await firebase.auth().signInWithEmailAndPassword(email, password);
       console.log(response);
@@ -68,8 +68,40 @@ export class AccountService {
     }
   }
 
-  async logout() { //TODO
+  async logout(): Promise<void> { //TODO
     await firebase.auth().signOut();
     this.messageService.alertGreen('You are now logged out!');
+  }
+
+  async updateName(name: string): Promise<any> {
+    try {
+      await firebase.auth().currentUser.updateProfile({
+        displayName: name
+      });
+
+      return null;
+    } catch(e) {
+      return e;
+    }
+  }
+
+  async updateEmail(email: string): Promise<any> {
+    try {
+      await firebase.auth().currentUser.updateEmail(email);
+
+      return null;
+    } catch(e) {
+      return e;
+    }
+  }
+
+  async updatePassword(password: string): Promise<any> {
+    try {
+      await firebase.auth().currentUser.updatePassword(password);
+
+      return null;
+    } catch(e) {
+      return e;
+    }
   }
 }
