@@ -3,12 +3,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="loginModalLongTitle">Login</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button type="button" #closeLoginModal class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mb-2">
                       <div class="form-group"
                            [ngClass]="{
                             'has-danger': email.invalid && (email.dirty || email.touched),
@@ -53,7 +53,14 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </form>
 
-                  <app-message></app-message>
+                  <div *ngFor="let msg of modalMessages" 
+                    class="alert alert-dismissible fade show alert-danger"
+                    role="alert">
+                      <strong>Error</strong> {{msg}}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
             </div>
     
             <div class="modal-footer">

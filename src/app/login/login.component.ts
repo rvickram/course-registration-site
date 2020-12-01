@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { AccountService } from '../_services/account.service';
 import { MessageService } from '../_services/message.service';
 
@@ -10,6 +9,11 @@ import { MessageService } from '../_services/message.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
+  // stores a message to display to the user:
+  @ViewChild('closeLoginModal') closebutton;
+  modalMessages: string[] = [];
+
   // variable to show/hide modal if login successful
   showModal: boolean = false;
   // store all form data
@@ -48,7 +52,19 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onSubmit():void {
-    this.accountService.login(this.email.value, this.password.value);
+  async onSubmit(): Promise<void> {
+    if (this.loginForm.valid) {
+      const response = await this.accountService.login(this.email.value, this.password.value);
+
+      if (response) {
+        this.modalMessages.push(response);
+      }
+      else {
+        this.messageService.alertGreen('You are now logged in!');
+        this.closebutton.nativeElement.click();
+      }
+    } else {
+      this.modalMessages.push("Make sure your email and password are correct!");
+    }
   }
 }

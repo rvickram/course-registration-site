@@ -34,37 +34,39 @@ export class AccountService {
 
   // return the first name of the user
   getName():string {
-    return firebase.auth().currentUser.displayName.split(' ')[0];
+    if (this.isLoggedIn)
+      return firebase.auth().currentUser.displayName.split(' ')[0];
+    else
+      return '';
   }
 
   getEmail(): string {
     return firebase.auth().currentUser.email;
   }
 
-  async newAccount(email: string, password: string, name: string): Promise<void> {
+  async newAccount(email: string, password: string, name: string): Promise<any> {
     try {
       // try to create the account
-      var response = await firebase.auth().createUserWithEmailAndPassword(email, password);
-      console.log(response);
+      await firebase.auth().createUserWithEmailAndPassword(email, password);
 
       // if successful, add a name:
       await firebase.auth().currentUser.updateProfile({
         displayName: name
       });
+
+      return null;
     } catch (e) {
-      console.log(e);
-      this.messageService.alertRed(e);
+      return e;
     }
   }
 
-  async login(email: string, password: string): Promise<void> { //TODO
+  async login(email: string, password: string): Promise<any> { //TODO
     try {
-      var response = await firebase.auth().signInWithEmailAndPassword(email, password);
-      console.log(response);
-      this.messageService.alertGreen("You are now logged in!");
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+      
+      return null;
     } catch (e) {
-      console.log(e);
-      this.messageService.alertRed(e);
+      return e;
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AccountService } from '../_services/account.service';
@@ -10,6 +10,11 @@ import { MessageService } from '../_services/message.service';
   styleUrls: ['./create-account.component.css']
 })
 export class CreateAccountComponent implements OnInit {
+
+  // stores a message to display to the user:
+  @ViewChild('closeNewAccModal') closebutton;
+  modalMessages: string[] = [];
+
 
   newAccForm: FormGroup;
   firstName: FormControl;
@@ -51,16 +56,25 @@ export class CreateAccountComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  async onSubmit(): Promise<void> {
     if (this.newAccForm.valid) {
-      const name:string = this.firstName.value + ' ' + this.lastName.value;
-      this.accountService.newAccount(this.email.value, this.password.value, name);
+      const parsedName: string = this.firstName.value + ' ' + this.lastName.value;
+      const response = await this.accountService.newAccount(this.email.value, this.password.value, parsedName);
+
+      if (response) {
+        this.modalMessages.push(response);
+      }
+      else {
+        this.messageService.alertGreen('You\'ve created a new account!');
+        this.closebutton.nativeElement.click();
+      }
     } else {
-      this.messageService.alertRed('Correct the fields required!');
+      this.modalMessages.push("Make sure all fields are correct!");
     }
   }
 
   onClose() {
     this.newAccForm.reset()
+    this.modalMessages = [];
   }
 }
