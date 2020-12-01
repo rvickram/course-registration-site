@@ -9,7 +9,7 @@ export class MessageService {
 
   constructor() { }
 
-  public alertRed(message: string, title: string = "Success"):void {
+  public alertRed(message: string, title: string = "Error"):void {
     const newMsg: Message = new Message(title, message, 'alert-danger');
     this.messages.push(newMsg);
   }

@@ -60,9 +60,10 @@ export class CreateAccountComponent implements OnInit {
 
   onSubmit() {
     if (this.newAccForm.valid) {
-      console.log(this.newAccForm);
+      const name:string = this.firstName.value + ' ' + this.lastName.value;
+      this.accountService.newAccount(this.email.value, this.password.value, name);
     } else {
-      console.log(this.newAccForm);
+      this.messageService.alertRed('Correct the fields required!');
     }
   }
 

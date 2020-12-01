@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <p>Fill in the following fields to register:</p>
 
-                <form [formGroup]="newAccForm" (ngSubmit)="onSubmit()">
+                <form [formGroup]="newAccForm" (ngSubmit)="onSubmit()" class="mb-2">
 
                     <fieldset formGroupName="name">
                         <div class="form-group"
@@ -106,6 +106,8 @@
 
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </form>
+
+                  <app-message></app-message>
             </div>
     
             <div class="modal-footer">

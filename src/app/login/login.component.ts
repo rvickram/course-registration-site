@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { AccountService } from '../_services/account.service';
 import { MessageService } from '../_services/message.service';
 
@@ -9,6 +10,9 @@ import { MessageService } from '../_services/message.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  // variable to show/hide modal if login successful
+  showModal: boolean = false;
+  // store all form data
   loginForm: FormGroup;
   email: FormControl;
   password: FormControl;
@@ -23,7 +27,8 @@ export class LoginComponent implements OnInit {
       this.createForm();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   createFormControls() {
     this.email = new FormControl('', [
@@ -44,7 +49,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit():void {
-    this.messageService.alertGreen('You are now logged in!');
     this.accountService.login(this.email.value, this.password.value);
   }
 }
