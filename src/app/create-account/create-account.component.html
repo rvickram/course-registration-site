@@ -24,6 +24,7 @@
                                  [class.is-invalid]="newAccForm.get('name').get('firstName').invalid && newAccForm.get('name').get('firstName').touched"
                                  formControlName="firstName"
                                  maxlength="30"
+                                 placeholder="e.g. Jagath"
                                  required>
                           <div class="form-control-feedback"
                                *ngIf="firstName.errors && (firstName.dirty || firstName.touched)">
@@ -47,6 +48,7 @@
                                  [class.is-invalid]="newAccForm.get('name').invalid && newAccForm.get('name').touched"
                                  formControlName="lastName"
                                  maxlength="30"
+                                 placeholder="e.g. Samarabandu"
                                  required>
                           <div class="form-control-feedback"
                                *ngIf="lastName.errors && (lastName.dirty || lastName.touched)">
@@ -67,6 +69,7 @@
                                [class.is-invalid]="newAccForm.get('email').invalid && newAccForm.get('email').touched"
                                formControlName="email"
                                maxlength="30"
+                               placeholder="e.g. example@uwo.ca"
                                required>
                         <div class="form-control-feedback"
                              *ngIf="email.errors && (email.dirty || email.touched)">
@@ -92,6 +95,7 @@
                                [class.is-invalid]="newAccForm.get('password').invalid && newAccForm.get('password').touched"
                                formControlName="password"
                                maxlength="30"
+                               placeholder="Password"
                                required>
                         <div class="form-control-feedback"
                              *ngIf="password.errors && (password.dirty || password.touched)">

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { AccountService } from '../_services/account.service';
+import { MessageService } from '../_services/message.service';
 
 @Component({
   selector: 'app-create-account',
@@ -26,6 +27,7 @@ export class CreateAccountComponent implements OnInit {
 
   constructor(
     public accountService: AccountService,
+    public messageService: MessageService
   ) {
       this.createFormControls();
       this.createForm();
