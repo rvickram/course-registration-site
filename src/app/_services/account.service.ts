@@ -27,7 +27,6 @@ export class AccountService {
 
   isLoggedIn(): boolean {
     var user = firebase.auth().currentUser;
-    console.log(user);
 
     return user ? true : false;
   }
@@ -58,6 +57,7 @@ export class AccountService {
     try {
       var response = await firebase.auth().signInWithEmailAndPassword(email, password);
       console.log(response);
+      this.messageService.alertGreen("You are now logged in!");
     } catch (e) {
       console.log(e);
       this.messageService.alertRed(e);

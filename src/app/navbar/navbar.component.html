@@ -33,14 +33,9 @@
       
       <!-- View account and logout buttons only avail. if user is logged in-->
       <span *ngIf="accountService.isLoggedIn()">
-        <button 
-          class="btn btn-primary mr-2">
-            My Account
-        </button>
+        <a class="btn btn-primary mr-2" routerLink="/my-account" routerLinkActive="active">My Account</a>
 
-        <button 
-          class="btn btn-secondary"
-          (click)="logout()">
+        <button class="btn btn-secondary" (click)="logout()">
             Logout
         </button>
       </span>

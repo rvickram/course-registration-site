@@ -17,7 +17,7 @@ import { MessageComponent } from './message/message.component';
 import { LoginComponent } from './login/login.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { AboutComponent } from './about/about.component';
-import { MyaccountComponent } from './myaccount/myaccount.component';
+import { MyAccountComponent } from './my-account/my-account.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +27,7 @@ import { MyaccountComponent } from './myaccount/myaccount.component';
     LoginComponent,
     CreateAccountComponent,
     AboutComponent,
-    MyaccountComponent
+    MyAccountComponent,
   ],
   imports: [
     BrowserModule,
