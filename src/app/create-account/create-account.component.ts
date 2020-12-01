@@ -11,11 +11,6 @@ import { MessageService } from '../_services/message.service';
 })
 export class CreateAccountComponent implements OnInit {
 
-  langs: string[] = [
-    'English',
-    'French',
-    'German',
-  ];
   newAccForm: FormGroup;
   firstName: FormControl;
   lastName: FormControl;
