@@ -36,6 +36,15 @@ export class DataService {
     );
   }
 
+  getAllCourses(subjCode: string): Observable<any> {
+    if (!subjCode.trim()) { return of([]); }
+
+    return this.http.get(`api/courses/subjects/${subjCode}`).pipe(
+      tap(_ => console.log(`Got all course codes.`)),
+      catchError(this.handleError)
+    );
+  }
+
 
   /******* schedule methods *******/
   async addSchedule(schedule: Schedule) {
@@ -51,18 +60,17 @@ export class DataService {
     }
   }
 
-  private handleError(error: HttpErrorResponse) {
+  handleError = (error: HttpErrorResponse) => {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
       console.error('An error occurred:', error.error.message);
-      this.messageService.alertRed(error.error.message)
+      this.messageService.alertRed(error.error.message);
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.
       const msg: string = `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`;
-      console.error(msg);
-      this.messageService.alertRed(msg);
+        this.messageService.alertRed(msg);
     }
     // Return an observable with a user-facing error message.
     return throwError(

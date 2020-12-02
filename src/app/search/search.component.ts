@@ -8,10 +8,11 @@ import { DataService } from '../_services/data.service';
 })
 export class SearchComponent implements OnInit {
 
-  selectedSubject: string = 'None';
+  selSubject: string = 'None';
   subjects: string[] = [];
-  selectedCourse: string = 'All';
+  selCourse: string = 'All';
   courses: string[] = [];
+  selCourseComponent: string = 'All';
 
   constructor(private dataService: DataService) { 
     this.fetchSubjects();
@@ -21,9 +22,29 @@ export class SearchComponent implements OnInit {
     
   }
 
+  /**
+   * Gets all subject codes on page load
+   */
   private fetchSubjects() {
-    const subjects = this.dataService.getAllSubjects()
+    this.dataService.getAllSubjects()
       .subscribe(subjects => this.subjects = subjects);
   }
 
+  /**
+   * Updates the course codes list whenever selSubject is changed
+   */
+  fetchCourseCodes() {
+    if (this.selSubject !== 'None') {
+      this.selCourse = 'All';
+      this.courses = [];
+      this.dataService.getAllCourses(this.selSubject)
+        .subscribe(data => data.forEach(element => {
+          this.courses.push(element.catalog_nbr);
+        }));
+    }
+  }
+
+  courseSearch() {
+
+  }
 }
