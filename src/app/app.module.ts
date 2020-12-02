@@ -1,12 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { AngularFireModule } from "@angular/fire";
-// import { AngularFireAuthModule } from "@angular/fire/auth";
 
-import firebase from "firebase/app";
-
-// Add the Firebase services that you want to use
 import "firebase/auth";
 import "firebase/firestore";
 
@@ -19,6 +14,8 @@ import { CreateAccountComponent } from './create-account/create-account.componen
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MyAccountComponent } from './my-account/my-account.component';
 import { PubSchedulesComponent } from './pub-schedules/pub-schedules.component';
+import { HttpClientModule } from '@angular/common/http';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -30,12 +27,14 @@ import { PubSchedulesComponent } from './pub-schedules/pub-schedules.component';
     DashboardComponent,
     MyAccountComponent,
     PubSchedulesComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
