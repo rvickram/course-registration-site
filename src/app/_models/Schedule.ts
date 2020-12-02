@@ -5,6 +5,7 @@ export class Schedule {
         public title: string,
         public description: string,
         public courses: Course[],
-        public visibilty: string
+        public lastEdited: Date,
+        public publicVis: boolean
     ) {};
 }
