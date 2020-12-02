@@ -1,3 +1,4 @@
+<!-- Show this if NOT logged in -->
 <div *ngIf="!accountService.isLoggedIn()" class="jumbotron">
     <h1 class="display-4">Welcome!</h1>
     <p class="lead">
@@ -24,6 +25,7 @@
   </button>
 </div>
 
+<!-- Show this is logged in -->
 <div *ngIf="accountService.isLoggedIn()" class="jumbotron">
     <h1 class="display-4">Welcome {{accountService.getName()}}!</h1>
     <p class="lead">
@@ -35,3 +37,5 @@
         Browse some publicly available schedules below, or build your own!
     </p>
 </div>
+
+<app-pub-schedules></app-pub-schedules>

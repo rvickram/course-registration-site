@@ -18,6 +18,7 @@ import { LoginComponent } from './login/login.component';
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MyAccountComponent } from './my-account/my-account.component';
+import { PubSchedulesComponent } from './pub-schedules/pub-schedules.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MyAccountComponent } from './my-account/my-account.component';
     CreateAccountComponent,
     DashboardComponent,
     MyAccountComponent,
+    PubSchedulesComponent,
   ],
   imports: [
     BrowserModule,
