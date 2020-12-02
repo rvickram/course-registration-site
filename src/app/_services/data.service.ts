@@ -25,6 +25,10 @@ export class DataService {
 
 
   /******* course methods *******/
+
+  /**
+   * Get all the available subject codes.
+   */
   getAllSubjects(): Observable<string[]> {
     return this.http.get<string[]>('api/courses/subjects').pipe(
       tap(_ => console.log(`Got all subjects.`)),
