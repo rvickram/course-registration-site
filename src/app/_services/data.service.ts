@@ -56,7 +56,7 @@ export class DataService {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.
       const msg: string = `Backend returned code ${error.status}, ` +
-      `body was: ${error.error}`;
+        `body was: ${error.error}`;
       console.error(msg);
       this.messageService.alertRed(msg);
     }
