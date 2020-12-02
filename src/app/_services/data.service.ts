@@ -17,6 +17,8 @@ export class DataService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
+  apiCourses: string = 'api/courses';
+
   constructor(
     private http: HttpClient,
     private accountService: AccountService,
@@ -30,7 +32,7 @@ export class DataService {
    * Get all the available subject codes.
    */
   getAllSubjects(): Observable<string[]> {
-    return this.http.get<string[]>('api/courses/subjects').pipe(
+    return this.http.get<string[]>(`${this.apiCourses}/subjects`).pipe(
       tap(_ => console.log(`Got all subjects.`)),
       catchError(this.handleError)
     );
@@ -39,8 +41,24 @@ export class DataService {
   getAllCourses(subjCode: string): Observable<any> {
     if (!subjCode.trim()) { return of([]); }
 
-    return this.http.get(`api/courses/subjects/${subjCode}`).pipe(
+    return this.http.get(`${this.apiCourses}/subjects/${subjCode}`).pipe(
       tap(_ => console.log(`Got all course codes.`)),
+      catchError(this.handleError)
+    );
+  }
+
+  searchCourses(subject: string, courseCode: string, courseComp?: string): Observable<any> {
+    // make sure search strings aren't empty
+    if (!subject.trim() || !courseCode.trim()) {
+      return of([]);
+    }
+
+    var apiUrl = `api/courses/timetable?subject=${subject}&catalog_nbr=${courseCode}`;
+    if (courseComp) apiUrl += `&ssr_component=${courseComp}`;
+
+    // query database
+    return this.http.get(apiUrl).pipe(
+      tap(_ => console.log(`Got search results.`)),
       catchError(this.handleError)
     );
   }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Course } from '../_models/Course';
 import { DataService } from '../_services/data.service';
 
 @Component({
@@ -13,6 +14,8 @@ export class SearchComponent implements OnInit {
   selCourse: string = 'All';
   courses: string[] = [];
   selCourseComponent: string = 'All';
+
+  searchResults: Course[] = [];
 
   constructor(private dataService: DataService) { 
     this.fetchSubjects();
@@ -44,7 +47,36 @@ export class SearchComponent implements OnInit {
     }
   }
 
-  courseSearch() {
+  search(): void {
+    this.searchResults = [];
 
+    if (this.selCourseComponent === 'All') {
+      this.dataService.searchCourses(this.selSubject, this.selCourse)
+          .subscribe(response => response.forEach(element => {
+            this.searchResults.push(this.parseCourse(element));
+          }));
+    }
+    else {
+      this.dataService.searchCourses(this.selSubject, this.selCourse, this.selCourseComponent)
+          .subscribe(response => this.searchResults.push(this.parseCourse(response)));
+    }
+
+    console.log(this.searchResults);
+  }
+
+  private parseCourse(element): Course {
+    return new Course(
+      element.subject,
+      element.catalog_nbr,
+      element.className,
+      element.course_info[0].class_nbr,
+      element.course_info[0].start_time,
+      element.course_info[0].end_time,
+      element.course_info[0].campus,
+      element.course_info[0].facility_id,
+      element.course_info[0].class_section,
+      element.course_info[0].ssr_component,
+      element.course_info[0].days.join(' ')
+    );
   }
 }

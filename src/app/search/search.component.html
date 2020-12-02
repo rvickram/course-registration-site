@@ -3,7 +3,7 @@
 
     <!-- Search input fields -->
     <div class="container">
-        <form>
+        <form (ngSubmit)="search()">
             <div class="row">
     
                 <div class="form-group col">
@@ -45,5 +45,9 @@
 
             <button type="submit" class="btn btn-primary">Search</button>
         </form>
+    </div>
+
+    <div class="container">
+
     </div>
 </div>
