@@ -31,10 +31,11 @@
 </div>
 
 <app-pub-schedules></app-pub-schedules>
-
-
-  
       
+<div *ngIf="accountService.isLoggedIn()" class="container mb-4">
+    <h4>My Schedules</h4>
+</div>
+
 <div *ngIf="accountService.isLoggedIn()" class="container">
-    scheduling app
+    <h4>Schedule Builder</h4>
 </div>
