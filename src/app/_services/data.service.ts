@@ -64,15 +64,13 @@ export class DataService {
 
 
   /******* schedule methods *******/
-  getUserSchedules(): Observable<Schedule[]> {
+  getUserSchedules(): Observable<any> {
     if (this.accountService.isLoggedIn()) {
-      return this.http.get<Schedule[]>(this.apiSchedules + '/users', this.authHeaders()).pipe(
+      return this.http.get<any>(this.apiSchedules + '/users', this.authHeaders()).pipe(
         tap(_ => console.log(`Got search results.`)),
         catchError(this.handleError)
       );
     }
-
-    return undefined;
   }
 
   testToken(): Observable<any> {
