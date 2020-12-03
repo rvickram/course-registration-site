@@ -41,7 +41,15 @@ export class ScheduleDashboardComponent implements OnInit {
   }
 
   deleteSchedule(schedule: Schedule): void {
-    console.log(`Del ${schedule}`);
+    this.dataService.deleteUserSchedule(schedule.title)
+      .subscribe(
+        data => {},
+        error => {},
+        () => {
+          this.mySchedules = this.mySchedules.filter(s => s.title !== schedule.title)
+          this.messageService.alertGreen('Deleted schedule!');
+        }
+    );
   }
 
   async sendToken() {
