@@ -25,9 +25,7 @@ export class SearchComponent implements OnInit {
     this.fetchSubjects();
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
   /**
    * Gets all subject codes on page load
@@ -57,6 +55,10 @@ export class SearchComponent implements OnInit {
     }
   }
 
+
+  /**
+   * This functions searches for courses.
+   */
   search(): void {
     this.searchResults = [];
 
@@ -79,6 +81,10 @@ export class SearchComponent implements OnInit {
             this.searchResults.push(this.parseCourse(element));
           }));
     }
+  }
+
+  clear() {
+    this.searchResults = [];
   }
 
   private parseCourse(element): Course {

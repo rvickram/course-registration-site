@@ -43,11 +43,55 @@
                 
             </div>
 
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary mr-2">Search</button>
+            <button type="reset" (click)="clear()" class="btn btn-secondary">Clear</button>
         </form>
     </div>
 
-    <div class="container">
+    <!-- Search results -->
+    <div *ngIf="searchResults.length > 0" class="container mt-3 mb-5">
+        <p>Search Results ({{searchResults.length}} results):</p>
+        <div class="accordion" id="accordianSearchResults">
 
+            <div *ngFor="let course of searchResults; let i = index" class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">
+                      <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" attr.data-target="#collapse{{i}}">
+                        {{course.subject}} | {{ course.class_name }} ({{course.course_code}}) - {{course.course_component}} | SEC {{ course.class_section }}
+                      </button>
+                    </h2>
+                </div>
+                <div id="collapse{{i}}" class="collapse" data-parent="#accordianSearchResults">
+                    <div class="card-body">
+                        <p><strong>Days:</strong> {{ course.days }}</p>
+                        <p><strong>Start time:</strong> {{ course.start_time }}</p>
+                        <p><strong>End time:</strong> {{ course.end_time }}</p>
+                        <p><strong>Campus:</strong> {{ course.campus }}</p>
+                        <p><strong>Room:</strong> {{ course.room }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div *ngFor="let course of searchResults; let i = index" class="card">
+              <div class="card-header" id="heading">
+                <h2 class="mb-0">
+                  <button 
+                    class="btn btn-link btn-block text-left collapsed" 
+                    type="button" 
+                    data-toggle="collapse" 
+                    data-target="#collapseMe" 
+                    aria-expanded="false" 
+                    aria-controls="collapseMe">
+                        {{course.subject}} | {{ course.class_name }} ({{course.course_code}}) | SEC {{ course.class_section }}
+                  </button>
+                </h2>
+              </div>
+              <div id="collapseMe" class="collapse" aria-labelledby="collapseMe" data-parent="#accordionExample">
+                <div class="card-body">
+                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                </div>
+              </div>
+            </div>
+          </div> -->
     </div>
 </div>
