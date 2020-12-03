@@ -16,6 +16,7 @@ import { MyAccountComponent } from './my-account/my-account.component';
 import { PubSchedulesComponent } from './pub-schedules/pub-schedules.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchComponent } from './search/search.component';
+import { ScheduleDashboardComponent } from './schedule-dashboard/schedule-dashboard.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { SearchComponent } from './search/search.component';
     MyAccountComponent,
     PubSchedulesComponent,
     SearchComponent,
+    ScheduleDashboardComponent,
   ],
   imports: [
     BrowserModule,
