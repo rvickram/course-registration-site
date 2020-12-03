@@ -17,6 +17,7 @@ import { PubSchedulesComponent } from './pub-schedules/pub-schedules.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SearchComponent } from './search/search.component';
 import { ScheduleDashboardComponent } from './schedule-dashboard/schedule-dashboard.component';
+import { ScheduleBuilderComponent } from './schedule-builder/schedule-builder.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ScheduleDashboardComponent } from './schedule-dashboard/schedule-dashbo
     PubSchedulesComponent,
     SearchComponent,
     ScheduleDashboardComponent,
+    ScheduleBuilderComponent,
   ],
   imports: [
     BrowserModule,
