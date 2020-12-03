@@ -13,17 +13,12 @@ import { MessageService } from './message.service';
 })
 export class DataService {
 
-  httpHeader = {
+  private httpHeader = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
-  authHttpHeader = {
-    headers: new HttpHeaders({ 
-      'content-type': 'application/json',
-      Authorization: `Bearer ${this.accountService.userIdToken}`
-    })
-  }
 
-  apiCourses: string = 'api/courses';
+  private apiCourses: string = 'api/courses';
+  private apiSchedules: string = 'api/schedules';
 
   constructor(
     private http: HttpClient,
@@ -69,6 +64,17 @@ export class DataService {
 
 
   /******* schedule methods *******/
+  getUserSchedules(): Observable<Schedule[]> {
+    if (this.accountService.isLoggedIn()) {
+      return this.http.get<Schedule[]>(this.apiSchedules + '/users', this.authHeaders()).pipe(
+        tap(_ => console.log(`Got search results.`)),
+        catchError(this.handleError)
+      );
+    }
+
+    return undefined;
+  }
+
   testToken(): Observable<any> {
 
     const token = this.accountService.getToken();
@@ -88,6 +94,8 @@ export class DataService {
     );
   }
 
+
+  // 
   handleError = (error: HttpErrorResponse) => {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
@@ -105,5 +113,14 @@ export class DataService {
     // Return an observable with a user-facing error message.
     return throwError(
       'Something bad happened; please try again later.');
+  }
+
+  authHeaders() {
+    return { 
+      headers: new HttpHeaders({ 
+        'content-type': 'application/json',
+        Authorization: `Bearer ${this.accountService.userIdToken}`
+      })
+    }
   }
 }
