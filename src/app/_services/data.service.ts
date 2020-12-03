@@ -13,9 +13,15 @@ import { MessageService } from './message.service';
 })
 export class DataService {
 
-  httpOptions = {
+  httpHeader = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
+  authHttpHeader = {
+    headers: new HttpHeaders({ 
+      'content-type': 'application/json',
+      Authorization: `Bearer ${this.accountService.userIdToken}`
+    })
+  }
 
   apiCourses: string = 'api/courses';
 
