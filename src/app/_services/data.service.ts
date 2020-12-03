@@ -67,7 +67,7 @@ export class DataService {
   getUserSchedules(): Observable<any> {
     if (this.accountService.isLoggedIn()) {
       return this.http.get<any>(this.apiSchedules + '/users', this.authHeaders()).pipe(
-        tap(_ => console.log(`Got search results.`)),
+        tap(_ => console.log('Retrieved all user schedules.')),
         catchError(this.handleError)
       );
     }
