@@ -36,7 +36,7 @@
     <h4>My Schedules</h4>
 
     <div *ngIf="mySchedules && mySchedules.length > 0" class="container mt-3 mb-5">
-        <div class="accordion" id="accordianSearchResults">
+        <div class="accordion" id="accordianMySchedule">
 
             <div *ngFor="let schedule of mySchedules; let i = index" class="card">
                 <div class="card-header">
@@ -46,22 +46,43 @@
                       </button>
                     </h2>
                 </div>
-                <div id="collapse{{i}}" class="collapse" data-parent="#accordianSearchResults">
+                <div id="collapse{{i}}" class="collapse" data-parent="#accordianMySchedule">
                     <div class="card-body">
-                        <!-- <p><strong>Days:</strong> {{ course.days }}</p>
-                        <p><strong>Start time:</strong> {{ course.start_time }}</p>
-                        <p><strong>End time:</strong> {{ course.end_time }}</p>
-                        <p><strong>Campus:</strong> {{ course.campus }}</p>
-                        <p><strong>Room:</strong> {{ course.room }}</p> -->
+                        <p>Description: {{schedule.description}}</p>
+
+                        <p>Courses:</p>
+                        <div *ngFor="let course of schedule.courses" class="card d-inline-block mr-2 mb-2" style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{course.subject}}{{course.course_code}}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{course.class_name}}</h6>
+                                <p class="card-text">
+                                    <strong>Days:</strong> {{ course.days }}<br>
+                                    <strong>Start time:</strong> {{ course.start_time }}<br>
+                                    <strong>End time:</strong> {{ course.end_time }}<br>
+                                    <strong>Campus:</strong> {{ course.campus }}<br>
+                                    <strong>Room:</strong> {{ course.room }}
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3">
+                            <button class="btn btn-primary mr-2" (click)="editSchedule(schedule)">Edit</button>
+                            <button class="btn btn-secondary" (click)="deleteSchedule(schedule)">Delete</button>
+                            <p class="mt-3">Last Edited: {{schedule.lastEdited}} | Public: {{ schedule.publicVis ? 'Yes' : 'No'}}</p>
+                        </div>
                     </div>
                 </div>
             </div>
+
+        </div>
+    </div>
+
+    <div *ngIf="accountService.isLoggedIn()" class = "container">
+        <button (click)="getUserSchedules()">Get My Schedules</button>
     </div>
 </div>
 
-<div *ngIf="accountService.isLoggedIn()" class = "container">
-    <button (click)="getUserSchedules()">Get My Schedules</button>
-</div>
+
 
 <div *ngIf="accountService.isLoggedIn()" class="container">
     <h4>Schedule Builder</h4>
