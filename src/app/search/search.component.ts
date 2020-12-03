@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Course } from '../_models/Course';
 import { DataService } from '../_services/data.service';
+import { MessageService } from '../_services/message.service';
 
 @Component({
   selector: 'app-search',
@@ -17,7 +18,10 @@ export class SearchComponent implements OnInit {
 
   searchResults: Course[] = [];
 
-  constructor(private dataService: DataService) { 
+  constructor(
+    private dataService: DataService,
+    private messageService: MessageService
+  ) { 
     this.fetchSubjects();
   }
 
@@ -42,7 +46,13 @@ export class SearchComponent implements OnInit {
       this.courses = [];
       this.dataService.getAllCourses(this.selSubject)
         .subscribe(data => data.forEach(element => {
-          this.courses.push(element.catalog_nbr);
+          let courseCodeRaw = element.catalog_nbr;
+          if (isNaN(courseCodeRaw)) {
+            this.courses.push(courseCodeRaw);
+          }
+          else {
+            this.courses.push(parseInt(courseCodeRaw).toString());
+          }
         }));
     }
   }
@@ -50,18 +60,25 @@ export class SearchComponent implements OnInit {
   search(): void {
     this.searchResults = [];
 
-    if (this.selCourseComponent === 'All') {
+    if (this.selSubject === 'None') {
+      this.messageService.alertRed('You must enter a subject code at minimum!');
+    }
+    // search by subject code only (return all courses for a subject)
+    else if (this.selCourse === 'All') {
+      for (let course of this.courses) {
+        this.dataService.searchCourses(this.selSubject, course)
+          .subscribe(response => response.forEach(element => {
+            this.searchResults.push(this.parseCourse(element));
+          }));
+      }
+    }
+    // search by subject + course code only
+    else {
       this.dataService.searchCourses(this.selSubject, this.selCourse)
           .subscribe(response => response.forEach(element => {
             this.searchResults.push(this.parseCourse(element));
           }));
     }
-    else {
-      this.dataService.searchCourses(this.selSubject, this.selCourse, this.selCourseComponent)
-          .subscribe(response => this.searchResults.push(this.parseCourse(response)));
-    }
-
-    console.log(this.searchResults);
   }
 
   private parseCourse(element): Course {

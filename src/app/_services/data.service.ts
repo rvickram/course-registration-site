@@ -49,9 +49,7 @@ export class DataService {
 
   searchCourses(subject: string, courseCode: string, courseComp?: string): Observable<any> {
     // make sure search strings aren't empty
-    if (!subject.trim() || !courseCode.trim()) {
-      return of([]);
-    }
+    if (!subject.trim() || !courseCode.trim()) { return of([]); }
 
     var apiUrl = `api/courses/timetable?subject=${subject}&catalog_nbr=${courseCode}`;
     if (courseComp) apiUrl += `&ssr_component=${courseComp}`;
