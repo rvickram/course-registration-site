@@ -1,110 +1,107 @@
-<div *ngIf="accountService.isLoggedIn()" class="jumbotron">
+<div class="container-fluid" style="margin-top: 70px;">
+  <div *ngIf="accountService.isLoggedIn()" class="jumbotron">
     <h1 class="display-4">Account Management</h1>
     <p class="lead">You can change your account settings here, including name, email, and/or password.</p>
-    <!-- <hr class="my-4">
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-    <p class="lead">
-      <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-    </p> -->
+  </div>
+
+    
+  <div *ngIf="accountService.isLoggedIn()" class="container">
+      <h4>Your information:</h4>
+
+      <form [formGroup]="updateNameForm" (ngSubmit)="updateName()" class="mb-5">
+        <div class="form-group"
+            [ngClass]="{
+            'has-danger': name.invalid && (name.dirty || name.touched),
+            'has-success': name.valid && (name.dirty || name.touched)
+          }">
+          <label>Full Name:</label>
+          <input type="text"
+                class="form-control"
+                [class.is-invalid]="updateNameForm.get('name').invalid && updateNameForm.get('name').touched"
+                formControlName="name"
+                maxlength="30"
+                placeholder="e.g. Jagath"
+                required>
+          
+          <div class="form-control-feedback" *ngIf="name.errors && (name.dirty || name.touched)">
+            <p *ngIf="name.errors.required">Name is required</p>
+          </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Name</button>
+      </form>
+
+      <form [formGroup]="updateEmailForm" (ngSubmit)="updateEmail()" class="mb-5">
+        <div class="form-group"
+            [ngClass]="{
+            'has-danger': email.invalid && (email.dirty || email.touched),
+            'has-success': email.valid && (email.dirty || email.touched)
+          }">
+          <label>Email Address:</label>
+          <input type="text"
+                class="form-control"
+                [class.is-invalid]="updateEmailForm.get('email').invalid && updateEmailForm.get('email').touched"
+                formControlemail="email"
+                maxlength="30"
+                placeholder="e.g. Jagath"
+                required>
+          
+          <div class="form-control-feedback" *ngIf="email.errors && (email.dirty || email.touched)">
+            <p *ngIf="email.errors.required">email is required</p>
+          </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Email</button>
+      </form>
+
+      <form [formGroup]="updatePasswordForm" (ngSubmit)="updatePassword()" class="mb-5">
+        <div class="form-group"
+            [ngClass]="{
+            'has-danger': password.invalid && (password.dirty || password.touched),
+            'has-success': password.valid && (password.dirty || password.touched)
+          }">
+          <label>Password Address:</label>
+          <input type="text"
+                class="form-control"
+                [class.is-invalid]="updatePasswordForm.get('password').invalid && updatePasswordForm.get('password').touched"
+                formControlpassword="password"
+                maxlength="30"
+                placeholder="e.g. Jagath"
+                required>
+          
+          <div class="form-control-feedback" *ngIf="password.errors && (password.dirty || password.touched)">
+            <p *ngIf="password.errors.required">password is required</p>
+          </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update Password</button>
+      </form>
+  </div>
+
+  <!-- Display only if user is not logged in -->
+  <div *ngIf="!accountService.isLoggedIn()" class="jumbotron">
+    <h1 class="display-4">Account Management</h1>
+    <p class="lead">You can change your account settings here, including name, email, and/or password.</p>
+
+    <hr class="my-4">
+    <p>
+        To view your account settings, please login (or create an account if you don't already have one):
+    </p>
+    <!-- Identity Butons -->
+    <button 
+        class="btn btn-primary mr-2"
+        data-toggle="modal"
+        data-target="#loginModal">
+        Login
+    </button>
+    <button 
+        class="btn btn-secondary"
+        data-toggle="modal"
+        data-target="#createAccountModal">
+      Create Account
+    </button>
 </div>
-
-  
-<div *ngIf="accountService.isLoggedIn()" class="container">
-    <h4>Your information:</h4>
-
-    <form [formGroup]="updateNameForm" (ngSubmit)="updateName()" class="mb-5">
-      <div class="form-group"
-          [ngClass]="{
-          'has-danger': name.invalid && (name.dirty || name.touched),
-          'has-success': name.valid && (name.dirty || name.touched)
-        }">
-        <label>Full Name:</label>
-        <input type="text"
-              class="form-control"
-              [class.is-invalid]="updateNameForm.get('name').invalid && updateNameForm.get('name').touched"
-              formControlName="name"
-              maxlength="30"
-              placeholder="e.g. Jagath"
-              required>
-        
-        <div class="form-control-feedback" *ngIf="name.errors && (name.dirty || name.touched)">
-          <p *ngIf="name.errors.required">Name is required</p>
-        </div>
-
-      </div>
-
-      <button type="submit" class="btn btn-primary">Update Name</button>
-    </form>
-
-    <form [formGroup]="updateEmailForm" (ngSubmit)="updateEmail()" class="mb-5">
-      <div class="form-group"
-          [ngClass]="{
-          'has-danger': email.invalid && (email.dirty || email.touched),
-          'has-success': email.valid && (email.dirty || email.touched)
-        }">
-        <label>Email Address:</label>
-        <input type="text"
-              class="form-control"
-              [class.is-invalid]="updateEmailForm.get('email').invalid && updateEmailForm.get('email').touched"
-              formControlemail="email"
-              maxlength="30"
-              placeholder="e.g. Jagath"
-              required>
-        
-        <div class="form-control-feedback" *ngIf="email.errors && (email.dirty || email.touched)">
-          <p *ngIf="email.errors.required">email is required</p>
-        </div>
-
-      </div>
-
-      <button type="submit" class="btn btn-primary">Update Email</button>
-    </form>
-
-    <form [formGroup]="updatePasswordForm" (ngSubmit)="updatePassword()" class="mb-5">
-      <div class="form-group"
-          [ngClass]="{
-          'has-danger': password.invalid && (password.dirty || password.touched),
-          'has-success': password.valid && (password.dirty || password.touched)
-        }">
-        <label>Password Address:</label>
-        <input type="text"
-              class="form-control"
-              [class.is-invalid]="updatePasswordForm.get('password').invalid && updatePasswordForm.get('password').touched"
-              formControlpassword="password"
-              maxlength="30"
-              placeholder="e.g. Jagath"
-              required>
-        
-        <div class="form-control-feedback" *ngIf="password.errors && (password.dirty || password.touched)">
-          <p *ngIf="password.errors.required">password is required</p>
-        </div>
-
-      </div>
-
-      <button type="submit" class="btn btn-primary">Update Password</button>
-    </form>
-</div>
-
-<!-- Display only if user is not logged in -->
-<div *ngIf="!accountService.isLoggedIn()" class="jumbotron">
-  <h1 class="display-4">Account Management</h1>
-  <p class="lead">You can change your account settings here, including name, email, and/or password.</p>
-
-  <hr class="my-4">
-  <p>
-      To view your account settings, please login (or create an account if you don't already have one):
-  </p>
-  <!-- Identity Butons -->
-  <button 
-      class="btn btn-primary mr-2"
-      data-toggle="modal"
-      data-target="#loginModal">
-      Login
-  </button>
-  <button 
-      class="btn btn-secondary"
-      data-toggle="modal"
-      data-target="#createAccountModal">
-    Create Account
-</button>
 </div>
