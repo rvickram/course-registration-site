@@ -13,11 +13,12 @@ import { MessageService } from './message.service';
 })
 export class DataService {
 
-  httpOptions = {
+  private httpHeader = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   };
 
-  apiCourses: string = 'api/courses';
+  private apiCourses: string = 'api/courses';
+  private apiSchedules: string = 'api/schedules';
 
   constructor(
     private http: HttpClient,
@@ -63,19 +64,36 @@ export class DataService {
 
 
   /******* schedule methods *******/
-  async addSchedule(schedule: Schedule) {
-    const uid = this.accountService.getUid();
-
-    if (schedule.publicVis) {
-      // Add to public schedule database
-
-      // Add to private user list
-    } else {
-      // Add to private user list
-      
+  getUserSchedules(): Observable<any> {
+    if (this.accountService.isLoggedIn()) {
+      return this.http.get<any>(this.apiSchedules + '/users', this.authHeaders()).pipe(
+        tap(_ => console.log('Retrieved all user schedules.')),
+        catchError(this.handleError)
+      );
     }
   }
 
+  testToken(): Observable<any> {
+
+    const token = this.accountService.getToken();
+
+    console.log(token);
+
+    const options = {
+      headers: new HttpHeaders({ 
+        'content-type': 'application/json',
+        Authorization: `Bearer ${token}`
+      })
+    };
+
+    return this.http.put('api/schedules/users', {}, options).pipe(
+      tap(_ => console.log(`Got search results.`)),
+      catchError(this.handleError)
+    );
+  }
+
+
+  // 
   handleError = (error: HttpErrorResponse) => {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
@@ -84,12 +102,23 @@ export class DataService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.
-      const msg: string = `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`;
-        this.messageService.alertRed(msg);
+      let msg: string = `Backend returned code ${error.status}, `;
+      const errMsg: string = error.error.error;
+
+      msg += errMsg ? `body was: ${error.error.error}` : `body was: ${error.error}`;
+      this.messageService.alertRed(msg);
     }
     // Return an observable with a user-facing error message.
     return throwError(
       'Something bad happened; please try again later.');
+  }
+
+  authHeaders() {
+    return { 
+      headers: new HttpHeaders({ 
+        'content-type': 'application/json',
+        Authorization: `Bearer ${this.accountService.userIdToken}`
+      })
+    }
   }
 }

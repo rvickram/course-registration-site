@@ -8,9 +8,15 @@ import { MessageService } from './message.service';
 })
 export class AccountService {
 
-  constructor(
-    private messageService: MessageService
-  ) { 
+  user = undefined;
+  userIdToken = undefined;
+
+
+  constructor(private messageService: MessageService) { 
+    this.initFirebase();
+  }
+
+  private initFirebase() {
     var firebaseConfig = {
       apiKey: "AIzaSyCGK4Yu4G8sw26lZu4atiMSHVYC-SsPrdk",
       authDomain: "course-registration-site.firebaseapp.com",
@@ -22,12 +28,23 @@ export class AccountService {
       measurementId: "G-NK14KJ3CRW"
     };
     firebase.initializeApp(firebaseConfig);
+
+    firebase.auth().onAuthStateChanged( user => {
+      if (user) {
+        this.user = user;
+        user.getIdToken().then(idToken => {
+          this.userIdToken = idToken;
+        });
+      }
+      else {
+        this.user = undefined;
+        this.userIdToken = undefined;
+      }
+    });
   }
 
   isLoggedIn(): boolean {
-    const user = firebase.auth().currentUser;
-
-    return user ? true : false;
+    return this.user ? true : false;
   }
 
 
@@ -36,7 +53,7 @@ export class AccountService {
    */
   getName():string {
     if (this.isLoggedIn)
-      return firebase.auth().currentUser.displayName.split(' ')[0];
+      return this.user.displayName.split(' ')[0];
     else
       return '';
   }
@@ -45,24 +62,19 @@ export class AccountService {
    * Returns the email of the user.
    */
   getEmail(): string {
-    return firebase.auth().currentUser.email;
+    return this.user.email;
   }
 
   getUid(): string {
     if (this.isLoggedIn()) {
-      return firebase.auth().currentUser.uid;
+      return this.user.uid;
     } else {
       return null;
     }
   }
 
-  async getToken(): Promise<string> {
-    try {
-      return await firebase.auth().currentUser.getIdToken(true);
-    } catch (e) {
-      this.messageService.alertRed(e);
-      return '';
-    }
+  getToken() {
+    return this.userIdToken;
   }
 
   /**
