@@ -63,17 +63,23 @@ export class DataService {
 
 
   /******* schedule methods *******/
-  async addSchedule(schedule: Schedule) {
-    const uid = this.accountService.getUid();
+  testToken(): Observable<any> {
 
-    if (schedule.publicVis) {
-      // Add to public schedule database
+    const token = this.accountService.getToken();
 
-      // Add to private user list
-    } else {
-      // Add to private user list
-      
-    }
+    console.log(token);
+
+    const options = {
+      headers: new HttpHeaders({ 
+        'content-type': 'application/json',
+        Authorization: `Bearer ${token}`
+      })
+    };
+
+    return this.http.put('api/schedules/users', {}, options).pipe(
+      tap(_ => console.log(`Got search results.`)),
+      catchError(this.handleError)
+    );
   }
 
   handleError = (error: HttpErrorResponse) => {
@@ -84,9 +90,11 @@ export class DataService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong.
-      const msg: string = `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`;
-        this.messageService.alertRed(msg);
+      let msg: string = `Backend returned code ${error.status}, `;
+      const errMsg: string = error.error.error;
+
+      msg += errMsg ? `body was: ${error.error.error}` : `body was: ${error.error}`;
+      this.messageService.alertRed(msg);
     }
     // Return an observable with a user-facing error message.
     return throwError(
