@@ -11,7 +11,7 @@ import { MessageService } from '../_services/message.service';
   templateUrl: './schedule-dashboard.component.html',
   styleUrls: ['./schedule-dashboard.component.css']
 })
-export class ScheduleDashboardComponent {
+export class ScheduleDashboardComponent implements OnInit {
 
   scheduleManager: ScheduleManager = new ScheduleManager();
   newSchedule: Schedule = new Schedule();
@@ -21,6 +21,10 @@ export class ScheduleDashboardComponent {
     private dataService: DataService,
     private messageService: MessageService
   ) { }
+
+  ngOnInit(): void {
+    this.getUserSchedules();
+  }
 
   getUserSchedules():void {
     this.dataService.getUserSchedules().subscribe(userSchedules => {
