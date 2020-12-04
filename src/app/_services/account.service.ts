@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import firebase from "firebase/app";
-import { Observable, of } from 'rxjs';
 
 import { MessageService } from './message.service';
 
