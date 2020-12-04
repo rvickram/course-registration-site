@@ -65,12 +65,17 @@ export class DataService {
 
   /******* schedule methods *******/
   getUserSchedules(): Observable<any> {
-    if (this.accountService.isLoggedIn()) {
-      return this.http.get<any>(this.apiSchedules + '/users', this.authHeaders()).pipe(
-        tap(_ => console.log('Retrieved all user schedules.')),
-        catchError(this.handleError)
-      );
-    }
+    return this.http.get<any>(this.apiSchedules + '/users', this.authHeaders()).pipe(
+      tap(_ => console.log('Retrieved all user schedules.')),
+      catchError(this.handleError)
+    );
+  }
+
+  deleteUserSchedule(schedName: string): Observable<any> {
+    return this.http.delete(`${this.apiSchedules}/users/${schedName}`, this.authHeaders()).pipe(
+      tap(_ => console.log(`Deleted \'${schedName}\' schedule.`)),
+      catchError(this.handleError)
+    );
   }
 
   testToken(): Observable<any> {

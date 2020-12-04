@@ -13,28 +13,44 @@ import { MessageService } from '../_services/message.service';
 export class ScheduleDashboardComponent implements OnInit {
 
   mySchedules: Schedule[] = [];
+  newSchedule: Schedule;
 
   constructor(
     public accountService: AccountService,
     private dataService: DataService,
     private messageService: MessageService
   ) { }
+
   ngOnInit(): void {
+    
   }
 
   getUserSchedules():void {
-    this.dataService.getUserSchedules().subscribe(userSchedules => 
-      {
-        const newSchedList:Schedule[] = [];
-        for (let key in userSchedules) {
-          const schedule: Schedule = this.parseSchedule(userSchedules[key]);
+    this.dataService.getUserSchedules().subscribe(userSchedules => {
+      const newSchedList:Schedule[] = [];
+      for (let key in userSchedules) {
+        const schedule: Schedule = this.parseSchedule(userSchedules[key]);
 
-          newSchedList.push(schedule);
-        }
-
-        this.mySchedules = newSchedList;
-        console.log(this.mySchedules);
+        newSchedList.push(schedule);
       }
+
+      this.mySchedules = newSchedList;
+    });
+  }
+
+  editSchedule(schedule: Schedule): void {
+    console.log(`Edit ${schedule}`);
+  }
+
+  deleteSchedule(schedule: Schedule): void {
+    this.dataService.deleteUserSchedule(schedule.title)
+      .subscribe(
+        data => {},
+        error => {},
+        () => {
+          this.mySchedules = this.mySchedules.filter(s => s.title !== schedule.title)
+          this.messageService.alertGreen('Deleted schedule!');
+        }
     );
   }
 

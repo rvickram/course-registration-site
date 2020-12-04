@@ -1,0 +1,74 @@
+<p>Search for courses, and add them to your new schedule:</p>
+
+<!-- Search input fields -->
+<div class="container mb-3">
+    <form (ngSubmit)="search()">
+        <div class="row">
+
+            <div class="form-group col">
+                <label for="subjectSelect">Subject Code:</label>
+                <select 
+                    [(ngModel)]="selSubject"
+                    (change)="fetchCourseCodes()"
+                    class="form-control" 
+                    id="subjectSelect" 
+                    name="subjectSelect">
+                        <option value="None">None</option>
+                        <option *ngFor="let subject of subjects" [value]="subject">
+                            {{ subject }}
+                        </option>
+                </select>
+            </div>
+
+            <div class="form-group col">
+                <label for="courseCodeSelect">Course Code:</label>
+                <select [(ngModel)]="selCourse" class="form-control" id="courseCodeSelect" name="courseSelect">
+                    <option value="All">All</option>
+                    <option *ngFor="let course of courses" [value]="course">
+                        {{ course }}
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group col">
+                <label for="courseCompSelect">Course Component:</label>
+                <select [(ngModel)]="selCourseComponent" class="form-control" id="courseCompSelect" name="courseCompSelect">
+                    <option value="All">All</option>
+                    <option value="LEC">LEC</option>
+                    <option value="LAB">LAB</option>
+                    <option value="TUT">TUT</option>
+                </select>
+            </div>
+            
+        </div>
+
+        <button type="submit" class="btn btn-primary mr-2">Search</button>
+        <button type="reset" (click)="clear()" class="btn btn-secondary">Clear</button>
+    </form>
+</div>
+
+<!-- Search results -->
+<div *ngIf="searchResults.length > 0" class="container mb-5">
+    <p>Search Results ({{searchResults.length}} results):</p>
+    <div class="accordion" id="accordianSearchResults">
+
+        <div *ngFor="let course of searchResults; let i = index" class="card">
+            <div class="card-header">
+                <h2 class="mb-0 d-inline-block">
+                  <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" attr.data-target="#collapse{{i}}">
+                    {{course.subject}} | {{ course.class_name }} ({{course.course_code}}) - {{course.course_component}} | SEC {{ course.class_section }}
+                  </button>
+                </h2>
+                <button class="btn btn-primary">Add</button>
+            </div>
+            <div id="collapse{{i}}" class="collapse" data-parent="#accordianSearchResults">
+                <div class="card-body">
+                    <p><strong>Days:</strong> {{ course.days }}</p>
+                    <p><strong>Start time:</strong> {{ course.start_time }}</p>
+                    <p><strong>End time:</strong> {{ course.end_time }}</p>
+                    <p><strong>Campus:</strong> {{ course.campus }}</p>
+                    <p><strong>Room:</strong> {{ course.room }}</p>
+                </div>
+            </div>
+        </div>
+</div>
