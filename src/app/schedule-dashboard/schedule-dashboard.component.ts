@@ -14,13 +14,7 @@ export class ScheduleDashboardComponent implements OnInit {
 
   mySchedules: Schedule[] = [];
   editSched: boolean = false;
-  newSchedule: Schedule = new Schedule(
-    '',
-    '',
-    [],
-    '',
-    false
-  );
+  newSchedule: Schedule = new Schedule();
 
   constructor(
     public accountService: AccountService,
