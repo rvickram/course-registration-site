@@ -71,28 +71,16 @@ export class DataService {
     );
   }
 
-  deleteUserSchedule(schedName: string): Observable<any> {
-    return this.http.delete(`${this.apiSchedules}/users/${schedName}`, this.authHeaders()).pipe(
-      tap(_ => console.log(`Deleted \'${schedName}\' schedule.`)),
+  setUserSchedule(schedule: Schedule): Observable<any> {
+    return this.http.put<any>(this.apiSchedules + '/users', schedule, this.authHeaders()).pipe(
+      tap(_ => console.log('Saved user schedule.')),
       catchError(this.handleError)
     );
   }
 
-  testToken(): Observable<any> {
-
-    const token = this.accountService.getToken();
-
-    console.log(token);
-
-    const options = {
-      headers: new HttpHeaders({ 
-        'content-type': 'application/json',
-        Authorization: `Bearer ${token}`
-      })
-    };
-
-    return this.http.put('api/schedules/users', {}, options).pipe(
-      tap(_ => console.log(`Got search results.`)),
+  deleteUserSchedule(schedName: string): Observable<any> {
+    return this.http.delete(`${this.apiSchedules}/users/${schedName}`, this.authHeaders()).pipe(
+      tap(_ => console.log(`Deleted \'${schedName}\' schedule.`)),
       catchError(this.handleError)
     );
   }

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Schedule } from '../_models/Schedule';
-import { AccountService } from '../_services/account.service';
+import { DataService } from '../_services/data.service';
 import { MessageService } from '../_services/message.service';
 
 @Component({
@@ -15,10 +15,11 @@ export class ScheduleBuilderSelectorComponent implements OnInit {
 
   newScheduleForm: FormGroup;
   schedName: FormControl;
+  description: FormControl;
   publicVis: FormControl;
 
   constructor(
-    private accountService: AccountService,
+    private dataService: DataService,
     private messageService: MessageService
   ) {
       this.createFormControls();
@@ -27,24 +28,53 @@ export class ScheduleBuilderSelectorComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  createFormControls() {
+  private createFormControls() {
     this.schedName = new FormControl('', [
       Validators.required,
       Validators.minLength(4),
       Validators.maxLength(40)
     ]);
+    this.description = new FormControl('', [
+      Validators.required,
+      Validators.minLength(5),
+      Validators.maxLength(100)
+    ]);
     this.publicVis = new FormControl('');
   }
 
-  createForm() {
+  private createForm() {
     this.newScheduleForm = new FormGroup({
       schedName: this.schedName,
+      description: this.description,
       publicVis: this.publicVis,
     });
   }
 
-  onSubmit() {
+  onSubmit():void {
+    if (this.newScheduleForm.invalid) {
+      this.messageService.alertRed('Make sure your title is valid!');
+      return;
+    }
+    else if (this.newSchedule.courses.length === 0) {
+      this.messageService.alertRed('You must have at least one course in your list!');
+      return;
+    }
+
+    // update required fields
+    this.newSchedule.title = this.schedName.value;
+    this.newSchedule.description = this.description.value;
+    let date: Date = new Date();
+    this.newSchedule.lastEdited = date.toLocaleString();
+    this.newSchedule.publicVis = (this.publicVis.value !== '');
+
     console.log(this.newSchedule);
+    this.dataService.setUserSchedule(this.newSchedule).subscribe(
+      data => {},
+        error => {},
+        () => {
+          this.messageService.alertGreen('Saved your new schedule!');
+        }
+    )
   }
 
   clear() {
