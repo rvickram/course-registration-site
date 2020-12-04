@@ -20,7 +20,7 @@ export class ScheduleDashboardComponent implements OnInit {
     [],
     '',
     false
-  )
+  );
 
   constructor(
     public accountService: AccountService,
@@ -46,6 +46,8 @@ export class ScheduleDashboardComponent implements OnInit {
 
   editSchedule(schedule: Schedule): void {
     console.log(`Edit ${schedule}`);
+    this.newSchedule = schedule;
+    this.editSched = true;
   }
 
   deleteSchedule(schedule: Schedule): void {
