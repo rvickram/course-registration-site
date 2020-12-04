@@ -27,12 +27,9 @@ export class ScheduleManager {
     }
 
     public updateSchedule(schedule: Schedule):void {
-        const newSchedList: Schedule[] = this.scheduleList.filter(s => 
-            s.title !== schedule.title
-        );
-        
-        newSchedList.push(schedule);
-        this.scheduleList = newSchedList;
+        const index: number = this.scheduleList.findIndex(s => s.title === schedule.title);
+
+        this.scheduleList[index].set(schedule);
     }
 
     public deleteSchedule(schedule: Schedule):void {
