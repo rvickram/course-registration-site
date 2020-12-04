@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { EditSched } from '../_helpers/EditSched';
 import { Schedule } from '../_models/Schedule';
 import { DataService } from '../_services/data.service';
 import { MessageService } from '../_services/message.service';
@@ -9,11 +10,11 @@ import { MessageService } from '../_services/message.service';
   templateUrl: './schedule-builder-selector.component.html',
   styleUrls: ['./schedule-builder-selector.component.css']
 })
-export class ScheduleBuilderSelectorComponent implements OnInit {
+export class ScheduleBuilderSelectorComponent implements OnInit, OnChanges {
 
   @Input() newSchedule: Schedule;
   @Input() mySchedules: Schedule[];
-  @Input() editSched: boolean;
+  @Input() editSched: EditSched;
 
   newScheduleForm: FormGroup;
   schedName: FormControl;
@@ -30,12 +31,16 @@ export class ScheduleBuilderSelectorComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  ngOnChanges(change: SimpleChanges) {
+    console.log(change);
+  }
+
   private createFormControls() {
     this.schedName = new FormControl('', [
-      Validators.required,
-      Validators.pattern('^[a-zA-Z0-9 _.-]*$'),
-      Validators.minLength(4),
-      Validators.maxLength(40)
+        Validators.required,
+        Validators.pattern('^[a-zA-Z0-9 _.-]*$'),
+        Validators.minLength(4),
+        Validators.maxLength(40)
     ]);
     this.description = new FormControl('', [
       Validators.required,
@@ -54,7 +59,7 @@ export class ScheduleBuilderSelectorComponent implements OnInit {
     });
   }
 
-  onSubmit():void {
+  saveNewSchedule():void {
     if (this.newScheduleForm.invalid) {
       this.messageService.alertRed('Make sure all fields are valid!');
       return;
@@ -67,59 +72,55 @@ export class ScheduleBuilderSelectorComponent implements OnInit {
       this.messageService.alertRed('You may only have 20 course saved. Delete some to make room.');
       return;
     }
-    else if (!this.editSched && this.scheduleExists(this.newSchedule)) {
-      this.messageService.alertRed('A schedule with this name already exists!');
-      return;
-    }
 
     // update required fields
     this.newSchedule.title = this.schedName.value;
     this.newSchedule.description = this.description.value;
-    let date: Date = new Date();
-    this.newSchedule.lastEdited = date.toLocaleString();
+    this.newSchedule.lastEdited = new Date().toLocaleString();
     this.newSchedule.publicVis = (this.publicVis.value !== '');
 
     // make api call
-    if (this.editSched) {
-      this.dataService.updateUserSchedule(this.newSchedule).subscribe(
-        data => {},
-        error => {},
-        () => {
-          // update my course list and reset the form
-          this.mySchedules.push(this.newSchedule);
-          this.newSchedule.courses = [];
-          this.newScheduleForm.reset();
-          this.messageService.alertGreen('Saved your new schedule!');
-        }
-      );
-    }
-    else {
-      this.dataService.newUserSchedule(this.newSchedule).subscribe(
-        data => {},
-        error => {},
-        () => {
-          // update my course list and reset the form
-          this.mySchedules.push(this.newSchedule);
-          this.newSchedule.courses = [];
-          this.newScheduleForm.reset();
-          this.messageService.alertGreen('Saved your new schedule!');
-        }
-      );
-    }
+    this.dataService.newUserSchedule(this.newSchedule).subscribe(
+      data => {},
+      error => {},
+      () => {
+        // update my course list and reset the form
+        this.mySchedules.push(this.newSchedule);
+        this.newSchedule.reset();
+        this.newScheduleForm.reset();
+        this.messageService.alertGreen('Saved your new schedule!');
+      }
+    );
     
   }
 
-  private scheduleExists(schedule: Schedule):boolean {
-    const existingSched: Schedule[] = this.mySchedules.filter(s => {
-      s.title === schedule.title;
-    });
-
-    console.log(existingSched);
-
-    return (existingSched.length > 0);
+  updateSchedule() {
+    this.dataService.updateUserSchedule(this.newSchedule).subscribe(
+      data => {},
+      error => {},
+      () => {
+        // update my course list and reset the form
+        this.editSched.set(false);
+        this.newSchedule.reset();
+        this.newScheduleForm.reset();
+        this.messageService.alertGreen('Updated your schedule!');
+      }
+    );
   }
 
-  clear() {
+  cancelUpdateSchedule() {
+    this.newSchedule.reset();
+    this.editSched.set(false);
+  }
+
+  reset() {
+    this.newSchedule.reset();
+    this.newScheduleForm.reset();
+    console.log('Edit: ' + this.editSched);
+    console.log(this.newSchedule.title);
+  }
+
+  clearCourseList() {
     this.newSchedule.courses = [];
   }
 

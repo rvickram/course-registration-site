@@ -1,11 +1,11 @@
-<p>Build your schedule here:</p>
+<p>{{editSched.edit() ? 'Edit': 'Build'}} your schedule here:</p>
 
 <div class="border border-secondary rounded mb-3">
 
     <!-- Schedule settings -->
     <div class="container mt-2 mb-2">
-        <div>
-            <form [formGroup]="newScheduleForm" (ngSubmit)="onSubmit()" class="mb-2">
+        <div *ngIf="!editSched.edit()">
+            <form [formGroup]="newScheduleForm" (ngSubmit)="saveNewSchedule()" class="mb-2">
                 <div class="form-group"
                         [ngClass]="{
                         'has-danger': schedName.invalid && (schedName.dirty || schedName.touched),
@@ -61,8 +61,17 @@
                 </div>
     
                 <button type="submit" class="btn btn-primary mr-2 mt-2">Save</button>
-                <button type="reset" (click)="clear()" class="btn btn-secondary mt-2">Clear</button>
+                <button type="reset" (click)="reset()" class="btn btn-secondary mt-2">Reset</button>
+                
             </form>
+        </div>
+
+        <div *ngIf="editSched.edit()">
+            <p>Schedule Name: <strong>{{newSchedule.title}}</strong></p>
+            <p>Description: <strong>{{newSchedule.description}}</strong></p>
+
+            <button (click)="updateSchedule()" class="btn btn-primary mr-2">Save</button>
+            <button (click)="cancelUpdateSchedule()" class="btn btn-secondary">Cancel</button>
         </div>
     </div>
 
@@ -70,6 +79,7 @@
     <p *ngIf="newSchedule.courses.length === 0" class="container mt-2 mb-2">You don't have any courses in your schedule.</p>
 
     <div *ngIf="newSchedule.courses.length > 0" class="container mt-2 mb-2">
+        <button (click)="clearCourseList()" class="btn btn-danger mt-2 mb-2">Clear Course List</button>
         <div *ngFor="let course of newSchedule.courses" class="card d-inline-block mr-2 mb-2" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">{{course.subject}}{{course.course_code}}</h5>

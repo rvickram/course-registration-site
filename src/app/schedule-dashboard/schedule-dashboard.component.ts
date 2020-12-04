@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EditSched } from '../_helpers/EditSched';
 import { Course } from '../_models/Course';
 import { Schedule } from '../_models/Schedule';
 import { AccountService } from '../_services/account.service';
@@ -13,7 +14,7 @@ import { MessageService } from '../_services/message.service';
 export class ScheduleDashboardComponent implements OnInit {
 
   mySchedules: Schedule[] = [];
-  editSched: boolean = false;
+  editSched: EditSched = new EditSched(false);
   newSchedule: Schedule = new Schedule();
 
   constructor(
@@ -39,9 +40,9 @@ export class ScheduleDashboardComponent implements OnInit {
   }
 
   editSchedule(schedule: Schedule): void {
-    console.log(`Edit ${schedule}`);
-    this.newSchedule = schedule;
-    this.editSched = true;
+    this.editSched.set(true);
+    console.log(this.editSched.edit);
+    this.newSchedule.set(schedule);
   }
 
   deleteSchedule(schedule: Schedule): void {

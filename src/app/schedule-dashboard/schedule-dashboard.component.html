@@ -86,6 +86,8 @@
     </div>
 </div>
 
+<p *ngIf="editSched.edit()">edit schedule is true</p>
+
 <div *ngIf="accountService.isLoggedIn()" class="container">
     <app-schedule-builder 
         [newSchedule]="newSchedule"
