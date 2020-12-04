@@ -61,10 +61,11 @@ export class LoginComponent implements OnInit {
       }
       else {
         this.messageService.alertGreen('You are now logged in!');
+        this.loginForm.reset();
         this.closebutton.nativeElement.click();
       }
     } else {
-      this.modalMessages.push("Make sure your email and password are correct!");
+      this.modalMessages.push("Make sure your email and password are valid!");
     }
   }
 }
