@@ -59,9 +59,7 @@ export class ScheduleDashboardComponent implements OnInit {
     );
   }
 
-  async sendToken() {
-    this.dataService.testToken().subscribe();
-  }
+  // Parser functions below
 
   parseSchedule(rawSched): Schedule {
     const schedTitle = rawSched.title;

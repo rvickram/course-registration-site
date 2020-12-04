@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import firebase from "firebase/app";
+import { Observable, of } from 'rxjs';
 
 import { MessageService } from './message.service';
 
@@ -8,9 +9,11 @@ import { MessageService } from './message.service';
 })
 export class AccountService {
 
-  user = undefined;
-  userIdToken = undefined;
+  user = null;
+  userIdToken = null;
+  auth: firebase.auth.Auth;
 
+  authAttempt: boolean = false;
 
   constructor(private messageService: MessageService) { 
     this.initFirebase();
@@ -29,7 +32,8 @@ export class AccountService {
     };
     firebase.initializeApp(firebaseConfig);
 
-    firebase.auth().onAuthStateChanged( user => {
+    this.auth = firebase.auth();
+    this.auth.onAuthStateChanged( user => {
       if (user) {
         this.user = user;
         user.getIdToken().then(idToken => {
@@ -40,6 +44,9 @@ export class AccountService {
         this.user = undefined;
         this.userIdToken = undefined;
       }
+
+      console.log('Authentication state changed.');
+      this.authAttempt = true;
     });
   }
 
@@ -47,6 +54,9 @@ export class AccountService {
     return this.user ? true : false;
   }
 
+  loginState() {
+    return this.user;
+  }
 
   /**
    * Returns the first name of the user.
@@ -86,10 +96,10 @@ export class AccountService {
   async newAccount(email: string, password: string, name: string): Promise<any> {
     try {
       // try to create the account
-      await firebase.auth().createUserWithEmailAndPassword(email, password);
+      await this.auth.createUserWithEmailAndPassword(email, password);
 
       // if successful, add a name:
-      await firebase.auth().currentUser.updateProfile({
+      await this.auth.currentUser.updateProfile({
         displayName: name
       });
 
@@ -101,7 +111,7 @@ export class AccountService {
 
   async login(email: string, password: string): Promise<any> { //TODO
     try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
+      await this.auth.signInWithEmailAndPassword(email, password);
       
       return null;
     } catch (e) {
@@ -110,13 +120,13 @@ export class AccountService {
   }
 
   async logout(): Promise<void> { //TODO
-    await firebase.auth().signOut();
+    await this.auth.signOut();
     this.messageService.alertGreen('You are now logged out!');
   }
 
   async updateName(name: string): Promise<any> {
     try {
-      await firebase.auth().currentUser.updateProfile({
+      await this.auth.currentUser.updateProfile({
         displayName: name
       });
 
@@ -128,7 +138,7 @@ export class AccountService {
 
   async updateEmail(email: string): Promise<any> {
     try {
-      await firebase.auth().currentUser.updateEmail(email);
+      await this.auth.currentUser.updateEmail(email);
 
       return null;
     } catch(e) {
@@ -138,7 +148,7 @@ export class AccountService {
 
   async updatePassword(password: string): Promise<any> {
     try {
-      await firebase.auth().currentUser.updatePassword(password);
+      await this.auth.currentUser.updatePassword(password);
 
       return null;
     } catch(e) {
