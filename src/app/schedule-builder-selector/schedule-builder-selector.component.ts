@@ -67,14 +67,12 @@ export class ScheduleBuilderSelectorComponent implements OnInit {
     this.newSchedule.lastEdited = date.toLocaleString();
     this.newSchedule.publicVis = (this.publicVis.value !== '');
 
-    console.log(this.newSchedule);
+    // make api call
     this.dataService.setUserSchedule(this.newSchedule).subscribe(
       data => {},
-        error => {},
-        () => {
-          this.messageService.alertGreen('Saved your new schedule!');
-        }
-    )
+      error => {},
+      () => this.messageService.alertGreen('Saved your new schedule!')
+    );
   }
 
   clear() {
