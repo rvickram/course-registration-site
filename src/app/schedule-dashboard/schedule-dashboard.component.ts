@@ -13,6 +13,7 @@ import { MessageService } from '../_services/message.service';
 export class ScheduleDashboardComponent implements OnInit {
 
   mySchedules: Schedule[] = [];
+  editSched: boolean = false;
   newSchedule: Schedule = new Schedule(
     '',
     '',

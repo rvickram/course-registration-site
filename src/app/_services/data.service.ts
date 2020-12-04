@@ -71,9 +71,16 @@ export class DataService {
     );
   }
 
-  setUserSchedule(schedule: Schedule): Observable<any> {
+  newUserSchedule(schedule: Schedule): Observable<any> {
+    return this.http.post<any>(this.apiSchedules + '/users', schedule, this.authHeaders()).pipe(
+      tap(_ => console.log('Saved new user schedule.')),
+      catchError(this.handleError)
+    );
+  }
+
+  updateUserSchedule(schedule: Schedule): Observable<any> {
     return this.http.put<any>(this.apiSchedules + '/users', schedule, this.authHeaders()).pipe(
-      tap(_ => console.log('Saved user schedule.')),
+      tap(_ => console.log('Updated user schedule.')),
       catchError(this.handleError)
     );
   }
@@ -98,7 +105,7 @@ export class DataService {
       let msg: string = `Backend returned code ${error.status}, `;
       const errMsg: string = error.error.error;
 
-      msg += errMsg ? `body was: ${error.error.error}` : `body was: ${error.error}`;
+      msg += errMsg ? `${error.error.error}` : `body was: ${error.error}`;
       this.messageService.alertRed(msg);
     }
     // Return an observable with a user-facing error message.

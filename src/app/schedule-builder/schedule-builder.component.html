@@ -6,7 +6,12 @@
             <app-schedule-builder-search [newSchedule]="newSchedule"></app-schedule-builder-search>
         </div>
         <div class="col-lg-4">
-            <app-schedule-builder-selector [newSchedule]="newSchedule"></app-schedule-builder-selector>
+            <app-schedule-builder-selector 
+                [newSchedule]="newSchedule"
+                [mySchedules]="mySchedules"
+                [editSched]="editSched"
+            >
+            </app-schedule-builder-selector>
         </div>
     </div>
 </div>

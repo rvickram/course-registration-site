@@ -9,6 +9,8 @@ import { Schedule } from '../_models/Schedule';
 export class ScheduleBuilderComponent implements OnInit {
 
   @Input() newSchedule: Schedule;
+  @Input() mySchedules: Schedule[];
+  @Input() editSched: boolean;
 
   constructor() { }
 

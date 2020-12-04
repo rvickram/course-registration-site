@@ -23,6 +23,7 @@
                     <div class="form-control-feedback" *ngIf="schedName.errors && (schedName.dirty || schedName.touched)">
                         <p *ngIf="schedName.errors.required" class="text-danger">Schedule name is required</p>
                         <p *ngIf="schedName.errors.minLength" class="text-danger">Description must be at least 5 characters.</p>
+                        <p *ngIf="schedName.errors.pattern">Name can only contain letters, numbers or -,_</p>
                     </div>
                 </div>
 
@@ -36,11 +37,11 @@
                         class="form-control"
                         [class.is-invalid]="newScheduleForm.get('description').invalid && newScheduleForm.get('description').touched"
                         formControlName="description"
-                        maxlength="40"
+                        maxlength="100"
                         placeholder="e.g. Course schedule for software engineering students in first year."
                         required
                     ></textarea>
-                    <div class="form-control-feedback" *ngIf="schedName.errors && (description.dirty || description.touched)">
+                    <div class="form-control-feedback" *ngIf="description.errors && (description.dirty || description.touched)">
                         <p *ngIf="description.errors.required" class="text-danger">Description is required</p>
                         <p *ngIf="description.errors.minLength" class="text-danger">Description must be at least 5 characters.</p>
                     </div>

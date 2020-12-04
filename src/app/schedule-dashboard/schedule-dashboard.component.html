@@ -87,5 +87,10 @@
 </div>
 
 <div *ngIf="accountService.isLoggedIn()" class="container">
-    <app-schedule-builder [newSchedule]="newSchedule"></app-schedule-builder>
+    <app-schedule-builder 
+        [newSchedule]="newSchedule"
+        [mySchedules]="mySchedules"
+        [editSched]="editSched"
+    >
+    </app-schedule-builder>
 </div>
