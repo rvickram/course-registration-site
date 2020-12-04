@@ -1,1 +1,97 @@
-<p>schedule-builder-selector works!</p>
+<p>{{scheduleManager.edit() ? 'Edit': 'Build'}} your schedule here:</p>
+
+<div class="border border-secondary rounded mb-3">
+
+    <!-- Schedule settings -->
+    <div class="container mt-2 mb-2">
+        <div *ngIf="!scheduleManager.edit()">
+            <form [formGroup]="newScheduleForm" (ngSubmit)="saveNewSchedule()" class="mb-2">
+                <div class="form-group"
+                        [ngClass]="{
+                        'has-danger': schedName.invalid && (schedName.dirty || schedName.touched),
+                        'has-success': schedName.valid && (schedName.dirty || schedName.touched)
+                    }">
+                    <label>Schedule Name</label>
+                    <input type="name"
+                        class="form-control"
+                        [class.is-invalid]="newScheduleForm.get('schedName').invalid && newScheduleForm.get('schedName').touched"
+                        formControlName="schedName"
+                        maxlength="40"
+                        placeholder="e.g. Software Engineering 3rd Year"
+                        required
+                    >
+                    <div class="form-control-feedback" *ngIf="schedName.errors && (schedName.dirty || schedName.touched)">
+                        <p *ngIf="schedName.errors.required" class="text-danger">Schedule name is required</p>
+                        <p *ngIf="schedName.errors.minLength" class="text-danger">Description must be at least 5 characters.</p>
+                        <p *ngIf="schedName.errors.pattern">Name can only contain letters, numbers or -,_</p>
+                    </div>
+                </div>
+
+                <div class="form-group"
+                        [ngClass]="{
+                        'has-danger': description.invalid && (description.dirty || description.touched),
+                        'has-success': description.valid && (description.dirty || description.touched)
+                    }">
+                    <label>Description</label>
+                    <textarea
+                        class="form-control"
+                        [class.is-invalid]="newScheduleForm.get('description').invalid && newScheduleForm.get('description').touched"
+                        formControlName="description"
+                        maxlength="100"
+                        placeholder="e.g. Course schedule for software engineering students in first year."
+                        required
+                    ></textarea>
+                    <div class="form-control-feedback" *ngIf="description.errors && (description.dirty || description.touched)">
+                        <p *ngIf="description.errors.required" class="text-danger">Description is required</p>
+                        <p *ngIf="description.errors.minLength" class="text-danger">Description must be at least 5 characters.</p>
+                    </div>
+                </div>
+            
+                <div class="form-check">
+                    <input 
+                        class="form-check-input" 
+                        type="checkbox" 
+                        value=""
+                        formControlName="publicVis"
+                        id="defaultCheck1"
+                    >
+                    <label class="form-check-label" for="defaultCheck1">
+                      Save publicly?
+                    </label>
+                </div>
+    
+                <button type="submit" class="btn btn-primary mr-2 mt-2">Save</button>
+                <button type="reset" (click)="reset()" class="btn btn-secondary mt-2">Reset</button>
+                
+            </form>
+        </div>
+
+        <div *ngIf="scheduleManager.edit()">
+            <p>Schedule Name: <strong>{{newSchedule.title}}</strong></p>
+            <p>Description: <strong>{{newSchedule.description}}</strong></p>
+
+            <button (click)="updateSchedule()" class="btn btn-primary mr-2">Save</button>
+            <button (click)="cancelUpdateSchedule()" class="btn btn-secondary">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Courses in schedule -->
+    <p *ngIf="newSchedule.courses.length === 0" class="container mt-2 mb-2">You don't have any courses in your schedule.</p>
+
+    <div *ngIf="newSchedule.courses.length > 0" class="container mt-2 mb-2">
+        <button (click)="clearCourseList()" class="btn btn-danger mt-2 mb-2">Clear Course List</button>
+        <div *ngFor="let course of newSchedule.courses" class="card d-inline-block mr-2 mb-2" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{course.subject}}{{course.course_code}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{course.class_name}}</h6>
+                <p class="card-text">
+                    <strong>Days:</strong> {{ course.days }}<br>
+                    <strong>Start time:</strong> {{ course.start_time }}<br>
+                    <strong>End time:</strong> {{ course.end_time }}<br>
+                    <strong>Campus:</strong> {{ course.campus }}<br>
+                    <strong>Room:</strong> {{ course.room }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

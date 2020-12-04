@@ -95,6 +95,7 @@ export class ScheduleBuilderSearchComponent implements OnInit {
 
   addToSchedule(course: Course):void {
     this.newSchedule.courses.push(course);
+    console.log(this.newSchedule.courses);
   }
 
   private parseCourse(element): Course {
