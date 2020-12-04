@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ScheduleManager } from '../_helpers/ScheduleManager';
 import { Schedule } from '../_models/Schedule';
@@ -10,7 +10,7 @@ import { MessageService } from '../_services/message.service';
   templateUrl: './schedule-builder-selector.component.html',
   styleUrls: ['./schedule-builder-selector.component.css']
 })
-export class ScheduleBuilderSelectorComponent implements OnInit, OnChanges {
+export class ScheduleBuilderSelectorComponent {
 
   @Input() newSchedule: Schedule;
   @Input() scheduleManager: ScheduleManager;
@@ -26,12 +26,6 @@ export class ScheduleBuilderSelectorComponent implements OnInit, OnChanges {
   ) {
       this.createFormControls();
       this.createForm();
-  }
-
-  ngOnInit(): void {}
-
-  ngOnChanges(change: SimpleChanges) {
-    console.log(change);
   }
 
   private createFormControls() {
