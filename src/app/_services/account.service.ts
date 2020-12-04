@@ -13,8 +13,6 @@ export class AccountService {
   userIdToken = null;
   auth: firebase.auth.Auth;
 
-  authAttempt: boolean = false;
-
   constructor(private messageService: MessageService) { 
     this.initFirebase();
   }
@@ -44,18 +42,11 @@ export class AccountService {
         this.user = undefined;
         this.userIdToken = undefined;
       }
-
-      console.log('Authentication state changed.');
-      this.authAttempt = true;
     });
   }
 
   isLoggedIn(): boolean {
     return this.user ? true : false;
-  }
-
-  loginState() {
-    return this.user;
   }
 
   /**
