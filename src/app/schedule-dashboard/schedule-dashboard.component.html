@@ -35,7 +35,7 @@
 <div *ngIf="accountService.isLoggedIn()" class="container mb-4">
     <h4>My Schedules</h4>
 
-    <div *ngIf="scheduleManager.getNumSchedules() > 0" class="container mt-3 mb-5">
+    <div *ngIf="scheduleManager.getNumSchedules() > 0" class="container mt-3 mb-2">
         <div class="accordion" id="accordianMySchedule">
 
             <div *ngFor="let schedule of scheduleManager.getScheduleList(); let i = index" class="card">
@@ -75,14 +75,13 @@
             </div>
 
         </div>
+        <div class="container">
+            <button (click)="getUserSchedules()" class="btn btn-success">Refresh</button>
+        </div>
     </div>
 
-    <div *ngIf="scheduleManager.getNumSchedules() == 0" class="container mt-3 mb-5">
+    <div *ngIf="scheduleManager.getNumSchedules() == 0" class="container mt-3 mb-3">
         <p>You don't seem to have any schedules - you can create a new one below!</p>
-    </div>
-
-    <div class="container">
-        <button (click)="getUserSchedules()">Get My Schedules</button>
     </div>
 </div>
 
