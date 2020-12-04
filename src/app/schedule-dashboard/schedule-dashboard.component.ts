@@ -13,7 +13,13 @@ import { MessageService } from '../_services/message.service';
 export class ScheduleDashboardComponent implements OnInit {
 
   mySchedules: Schedule[] = [];
-  newSchedule: Schedule;
+  newSchedule: Schedule = new Schedule(
+    '',
+    '',
+    [],
+    '',
+    false
+  )
 
   constructor(
     public accountService: AccountService,
@@ -22,7 +28,6 @@ export class ScheduleDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
   }
 
   getUserSchedules():void {
