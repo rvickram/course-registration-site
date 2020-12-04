@@ -20,7 +20,9 @@ export class ScheduleDashboardComponent implements OnInit {
     private dataService: DataService,
     private messageService: MessageService
   ) { }
+
   ngOnInit(): void {
+    
   }
 
   getUserSchedules():void {
