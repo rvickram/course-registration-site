@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { EditSched } from '../_helpers/EditSched';
+import { ScheduleManager } from '../_helpers/ScheduleManager';
 import { Schedule } from '../_models/Schedule';
 
 @Component({
@@ -10,8 +10,7 @@ import { Schedule } from '../_models/Schedule';
 export class ScheduleBuilderComponent implements OnInit {
 
   @Input() newSchedule: Schedule;
-  @Input() mySchedules: Schedule[];
-  @Input() editSched: EditSched;
+  @Input() scheduleManager: ScheduleManager;
 
   constructor() { }
 

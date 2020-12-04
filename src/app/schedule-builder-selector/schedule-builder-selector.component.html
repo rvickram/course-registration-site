@@ -1,10 +1,10 @@
-<p>{{editSched.edit() ? 'Edit': 'Build'}} your schedule here:</p>
+<p>{{scheduleManager.edit() ? 'Edit': 'Build'}} your schedule here:</p>
 
 <div class="border border-secondary rounded mb-3">
 
     <!-- Schedule settings -->
     <div class="container mt-2 mb-2">
-        <div *ngIf="!editSched.edit()">
+        <div *ngIf="!scheduleManager.edit()">
             <form [formGroup]="newScheduleForm" (ngSubmit)="saveNewSchedule()" class="mb-2">
                 <div class="form-group"
                         [ngClass]="{
@@ -66,7 +66,7 @@
             </form>
         </div>
 
-        <div *ngIf="editSched.edit()">
+        <div *ngIf="scheduleManager.edit()">
             <p>Schedule Name: <strong>{{newSchedule.title}}</strong></p>
             <p>Description: <strong>{{newSchedule.description}}</strong></p>
 

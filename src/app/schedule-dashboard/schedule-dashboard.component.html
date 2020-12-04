@@ -35,10 +35,10 @@
 <div *ngIf="accountService.isLoggedIn()" class="container mb-4">
     <h4>My Schedules</h4>
 
-    <div *ngIf="mySchedules.length > 0" class="container mt-3 mb-5">
+    <div *ngIf="scheduleManager.getNumSchedules() > 0" class="container mt-3 mb-5">
         <div class="accordion" id="accordianMySchedule">
 
-            <div *ngFor="let schedule of mySchedules; let i = index" class="card">
+            <div *ngFor="let schedule of scheduleManager.getScheduleList(); let i = index" class="card">
                 <div class="card-header">
                     <h2 class="mb-0">
                       <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" attr.data-target="#collapse{{i}}">
@@ -77,7 +77,7 @@
         </div>
     </div>
 
-    <div *ngIf="mySchedules.length == 0" class="container mt-3 mb-5">
+    <div *ngIf="scheduleManager.getNumSchedules() == 0" class="container mt-3 mb-5">
         <p>You don't seem to have any schedules - you can create a new one below!</p>
     </div>
 
@@ -86,13 +86,12 @@
     </div>
 </div>
 
-<p *ngIf="editSched.edit()">edit schedule is true</p>
+<p *ngIf="scheduleManager.edit()">edit schedule is true</p>
 
 <div *ngIf="accountService.isLoggedIn()" class="container">
     <app-schedule-builder 
         [newSchedule]="newSchedule"
-        [mySchedules]="mySchedules"
-        [editSched]="editSched"
+        [scheduleManager]="scheduleManager"
     >
     </app-schedule-builder>
 </div>

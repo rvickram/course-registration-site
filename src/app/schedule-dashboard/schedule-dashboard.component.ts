@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EditSched } from '../_helpers/EditSched';
+import { ScheduleManager } from '../_helpers/ScheduleManager';
 import { Course } from '../_models/Course';
 import { Schedule } from '../_models/Schedule';
 import { AccountService } from '../_services/account.service';
@@ -13,8 +13,7 @@ import { MessageService } from '../_services/message.service';
 })
 export class ScheduleDashboardComponent implements OnInit {
 
-  mySchedules: Schedule[] = [];
-  editSched: EditSched = new EditSched(false);
+  scheduleManager: ScheduleManager = new ScheduleManager();
   newSchedule: Schedule = new Schedule();
 
   constructor(
@@ -31,17 +30,16 @@ export class ScheduleDashboardComponent implements OnInit {
       const newSchedList:Schedule[] = [];
       for (let key in userSchedules) {
         const schedule: Schedule = this.parseSchedule(userSchedules[key]);
-
         newSchedList.push(schedule);
       }
 
-      this.mySchedules = newSchedList;
+      this.scheduleManager.setSchedules(newSchedList);
     });
   }
 
   editSchedule(schedule: Schedule): void {
-    this.editSched.set(true);
-    console.log(this.editSched.edit);
+    this.scheduleManager.setEdit(true);
+    console.log(this.scheduleManager.edit());
     this.newSchedule.set(schedule);
   }
 
@@ -51,7 +49,7 @@ export class ScheduleDashboardComponent implements OnInit {
         data => {},
         error => {},
         () => {
-          this.mySchedules = this.mySchedules.filter(s => s.title !== schedule.title)
+          this.scheduleManager.deleteSchedule(schedule);
           this.messageService.alertGreen('Deleted schedule!');
         }
     );

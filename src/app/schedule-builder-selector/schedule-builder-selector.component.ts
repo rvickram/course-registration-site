@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { EditSched } from '../_helpers/EditSched';
+import { ScheduleManager } from '../_helpers/ScheduleManager';
 import { Schedule } from '../_models/Schedule';
 import { DataService } from '../_services/data.service';
 import { MessageService } from '../_services/message.service';
@@ -13,8 +13,7 @@ import { MessageService } from '../_services/message.service';
 export class ScheduleBuilderSelectorComponent implements OnInit, OnChanges {
 
   @Input() newSchedule: Schedule;
-  @Input() mySchedules: Schedule[];
-  @Input() editSched: EditSched;
+  @Input() scheduleManager: ScheduleManager;
 
   newScheduleForm: FormGroup;
   schedName: FormControl;
@@ -68,7 +67,7 @@ export class ScheduleBuilderSelectorComponent implements OnInit, OnChanges {
       this.messageService.alertRed('You must have at least one course in your list!');
       return;
     }
-    else if (this.mySchedules.length >= 20 ) {
+    else if (this.scheduleManager.getNumSchedules() >= 20 ) {
       this.messageService.alertRed('You may only have 20 course saved. Delete some to make room.');
       return;
     }
@@ -85,7 +84,7 @@ export class ScheduleBuilderSelectorComponent implements OnInit, OnChanges {
       error => {},
       () => {
         // update my course list and reset the form
-        this.mySchedules.push(this.newSchedule);
+        this.scheduleManager.addSchedule(this.newSchedule);
         this.newSchedule.reset();
         this.newScheduleForm.reset();
         this.messageService.alertGreen('Saved your new schedule!');
@@ -100,7 +99,8 @@ export class ScheduleBuilderSelectorComponent implements OnInit, OnChanges {
       error => {},
       () => {
         // update my course list and reset the form
-        this.editSched.set(false);
+        this.scheduleManager.updateSchedule(this.newSchedule);
+        this.scheduleManager.setEdit(false);
         this.newSchedule.reset();
         this.newScheduleForm.reset();
         this.messageService.alertGreen('Updated your schedule!');
@@ -110,14 +110,12 @@ export class ScheduleBuilderSelectorComponent implements OnInit, OnChanges {
 
   cancelUpdateSchedule() {
     this.newSchedule.reset();
-    this.editSched.set(false);
+    this.scheduleManager.setEdit(false);
   }
 
   reset() {
     this.newSchedule.reset();
     this.newScheduleForm.reset();
-    console.log('Edit: ' + this.editSched);
-    console.log(this.newSchedule.title);
   }
 
   clearCourseList() {
