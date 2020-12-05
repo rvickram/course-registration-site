@@ -26,6 +26,14 @@ export class DataService {
     private messageService: MessageService
   ) { }
 
+  /******* public schedule methods *******/
+  getPublicSchedules(): Observable<any> {
+    return this.http.get(`${this.apiSchedules}/public`).pipe(
+      tap(_ => console.log(`Got publicly available schedules.`)),
+      catchError(this.handleError)
+    );
+  }
+
 
   /******* course methods *******/
 
