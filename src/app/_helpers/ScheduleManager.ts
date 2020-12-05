@@ -1,3 +1,4 @@
+import { Course } from "../_models/Course";
 import { Schedule } from "../_models/Schedule";
 
 export class ScheduleManager {
@@ -42,4 +43,44 @@ export class ScheduleManager {
     public edit(): boolean {
         return this.editing;
     }
+
+    public parseSchedule(rawSched): Schedule {
+        const schedTitle = rawSched.title;
+        const schedDescription = rawSched.description;
+        const schedCourseList: Course[] = this.parseCourses(rawSched.courses);
+        const schedLastEdited = rawSched.lastEdited;
+        const schedPublicVis = rawSched.publicVis;
+    
+        return new Schedule(
+          schedTitle,
+          schedDescription,
+          schedCourseList,
+          schedLastEdited,
+          schedPublicVis
+        );
+      }
+    
+      private parseCourses(rawCourseList): Course[] {
+        const courseList: Course[] = [];
+    
+        for (var courseKey in rawCourseList) {
+          let course = rawCourseList[courseKey];
+    
+          courseList.push(new Course(
+            course.subject,
+            course.course_code,
+            course.class_name,
+            course.class_number,
+            course.start_time,
+            course.end_time,
+            course.campus,
+            course.room,
+            course.class_section,
+            course.course_component,
+            course.days
+          ));
+        }
+    
+        return courseList;
+      }
 }
