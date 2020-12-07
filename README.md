@@ -2,6 +2,8 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
 
+This is the client for the course registration website I created. It uses Angular and Bootstrap, and connects to Firebase and MongoDB through an API I created.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
