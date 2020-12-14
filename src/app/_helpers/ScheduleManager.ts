@@ -28,12 +28,10 @@ export class ScheduleManager {
     }
 
     public updateSchedule(schedule: Schedule):void {
-        const newSchedList: Schedule[] = this.scheduleList.filter(s => 
-            s.title !== schedule.title
-        );
+
+        const index: number = this.scheduleList.findIndex(s => s.title = schedule.title);
         
-        newSchedList.push(schedule);
-        this.scheduleList = newSchedList;
+        this.scheduleList[index].courses = schedule.courses;
     }
 
     public deleteSchedule(schedule: Schedule):void {
@@ -50,37 +48,46 @@ export class ScheduleManager {
         const schedCourseList: Course[] = this.parseCourses(rawSched.courses);
         const schedLastEdited = rawSched.lastEdited;
         const schedPublicVis = rawSched.publicVis;
+        const schedDisplayName = rawSched.displayName;
     
         return new Schedule(
           schedTitle,
           schedDescription,
           schedCourseList,
           schedLastEdited,
-          schedPublicVis
+          schedPublicVis,
+          schedDisplayName
         );
       }
-    
-      private parseCourses(rawCourseList): Course[] {
-        const courseList: Course[] = [];
-    
-        for (var courseKey in rawCourseList) {
-          let course = rawCourseList[courseKey];
-    
-          courseList.push(new Course(
-            course.subject,
-            course.course_code,
-            course.class_name,
-            course.class_number,
-            course.start_time,
-            course.end_time,
-            course.campus,
-            course.room,
-            course.class_section,
-            course.course_component,
-            course.days
-          ));
-        }
-    
-        return courseList;
-      }
+
+    // public parsePubSchedule(rawSched): Schedule {
+    //     const newSched:Schedule = this.parseSchedule(rawSched);
+    //     newSched.description = rawSched.displayName;
+
+    //     return newSched;
+    // }
+
+    private parseCourses(rawCourseList): Course[] {
+    const courseList: Course[] = [];
+
+    for (var courseKey in rawCourseList) {
+        let course = rawCourseList[courseKey];
+
+        courseList.push(new Course(
+        course.subject,
+        course.course_code,
+        course.class_name,
+        course.class_number,
+        course.start_time,
+        course.end_time,
+        course.campus,
+        course.room,
+        course.class_section,
+        course.course_component,
+        course.days
+        ));
+    }
+
+    return courseList;
+    }
 }

@@ -2,66 +2,77 @@
     <h4>Public Schedules</h4>
     
     <div class="container">
-      <!-- Top content -->
-        <div class="top-content">
+        <div *ngIf="scheduleManager.getNumSchedules() > 0" class="top-content mt-3">
           <div class="container-fluid">
               <div id="carousel-example" class="carousel slide" data-ride="carousel">
                   <div class="carousel-inner row w-100 mx-auto" role="listbox">
 
-                      <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 active">
-                        <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-                          <div class="card-header">Header</div>
+                    <div *ngFor="let schedule of scheduleManager.getScheduleList(); let i = index" 
+                      class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3" [class.active]="i === 0">
+                        <div class="card h-100 text-white bg-dark mb-3" style="max-width: 18rem;">
+                          <div class="card-header">{{schedule.courses.length}} courses</div>
                           <div class="card-body">
-                            <h5 class="card-title">Light card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <h5 class="card-title">{{schedule.title}}</h5>
+                            <p class="card-text">{{schedule.description}}</p>
+                            <p class="card-text"><small><strong>Author: </strong>{{schedule.displayName}}</small></p>
                           </div>
                         </div>
-                      </div>
-                      <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-                          <div class="card-header">Header</div>
-                          <div class="card-body">
-                            <h5 class="card-title">Light card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          </div>
+                    </div>
+
+                    <!-- <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 active">
+                      <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                          <h5 class="card-title">Light card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         </div>
                       </div>
-                      <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-                          <div class="card-header">Header</div>
-                          <div class="card-body">
-                            <h5 class="card-title">Light card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          </div>
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                      <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                          <h5 class="card-title">Light card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         </div>
                       </div>
-                      <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-                          <div class="card-header">Header</div>
-                          <div class="card-body">
-                            <h5 class="card-title">Light card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          </div>
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                      <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                          <h5 class="card-title">Light card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         </div>
                       </div>
-                      <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-                          <div class="card-header">Header</div>
-                          <div class="card-body">
-                            <h5 class="card-title">Light card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          </div>
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                      <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                          <h5 class="card-title">Light card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         </div>
                       </div>
-                      <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-                        <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
-                          <div class="card-header">Header</div>
-                          <div class="card-body">
-                            <h5 class="card-title">Light card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                          </div>
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                      <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                          <h5 class="card-title">Light card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                         </div>
                       </div>
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                      <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Header</div>
+                        <div class="card-body">
+                          <h5 class="card-title">Light card title</h5>
+                          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        </div>
+                      </div>
+                    </div> -->
                       
                   </div>
                   <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">
@@ -74,6 +85,10 @@
                   </a>
               </div>
           </div>
+        </div>
+
+        <div *ngIf="scheduleManager.getNumSchedules() === 0">
+          <p>There are no public schedules yet.</p>
         </div>
     </div>
 </div>

@@ -6,7 +6,8 @@ export class Schedule {
         public description:string = '',
         public courses:Course[] = [],
         public lastEdited:string = '',
-        public publicVis:boolean = false
+        public publicVis:boolean = false,
+        public displayName:string = ''
     ) {};
 
     public set(schedule: Schedule) {
@@ -15,6 +16,12 @@ export class Schedule {
         this.courses = schedule.courses;
         this.lastEdited = schedule.lastEdited;
         this.publicVis = schedule.publicVis;
+    }
+
+    public setPub(schedule: Schedule) {
+        this.set(schedule);
+
+        this.displayName = schedule.displayName;
     }
 
     public reset():void {

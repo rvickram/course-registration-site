@@ -17,8 +17,7 @@ export class PubSchedulesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-   this.dataService.getPublicSchedules().subscribe(
-     pubSchedules => {
+    this.dataService.getPublicSchedules().subscribe(pubSchedules => {
       const newSchedList:Schedule[] = [];
       for (let key in pubSchedules) {
         const schedule: Schedule = this.scheduleManager.parseSchedule(pubSchedules[key]);
@@ -26,8 +25,8 @@ export class PubSchedulesComponent implements OnInit {
       }
 
       this.scheduleManager.setSchedules(newSchedList);
-     }
-   )
+      console.log(this.scheduleManager.getNumSchedules());
+    });
   }
 
 }
