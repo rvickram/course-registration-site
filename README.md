@@ -2,7 +2,12 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.2.0.
 
-This is the client for the course registration website I created. It uses Angular and Bootstrap, and connects to Firebase and MongoDB through an API I created.
+This is the client for the course registration website I created. It uses Angular and Bootstrap, and connects to Firebase and MongoDB through an API I created. Features include:
+- Account creation
+- Ability to browse available courses
+- Ability to create schedules and optionally post them publicly
+- Ability to view publicly created schedules
+- And more!
 
 ## Development server
 
